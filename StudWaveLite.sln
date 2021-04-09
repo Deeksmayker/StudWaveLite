@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudWaveLite", "StudWaveLite\StudWaveLite.csproj", "{DB077512-8493-4697-8DD9-9B523CD787FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB077512-8493-4697-8DD9-9B523CD787FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB077512-8493-4697-8DD9-9B523CD787FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB077512-8493-4697-8DD9-9B523CD787FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB077512-8493-4697-8DD9-9B523CD787FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {77734CC3-0EAA-442F-BA23-3C08B9165FDC}
+	EndGlobalSection
+EndGlobal
