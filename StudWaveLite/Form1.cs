@@ -16,6 +16,7 @@ namespace StudWaveLite
         {
             InitializeComponent();
             var a = 324;
+            var fdsa = 234;
         }
     }
 }
