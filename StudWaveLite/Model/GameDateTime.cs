@@ -7,11 +7,18 @@ using System.Threading.Tasks;
 
 namespace StudWaveLite.Model
 {
-    public static class GameDateTime
+    public class GameDateTime
     {
-        private static int month = 9;
+        public GameDateTime(int month, int hour, int minute)
+        {
+            Month = month;
+            Hour = hour;
+            Minute = minute;
+        }
 
-        public static int Month
+        private int month;
+
+        public int Month
         {
             get => month;
             set
@@ -26,17 +33,17 @@ namespace StudWaveLite.Model
             }
         }
 
-        private static int year = 2021;
+        private int year = 2021;
 
-        public static int Year
+        public int Year
         {
             get => year;
             set => throw new Exception("Зачем меняешь год");
         }
 
-        private static int hour;
+        private int hour;
 
-        public static int Hour
+        public int Hour
         {
             get => hour;
             set
@@ -47,9 +54,9 @@ namespace StudWaveLite.Model
             }
         }
 
-        private static int minute;
+        private int minute;
 
-        public static int Minute
+        public int Minute
         {
             get => minute;
             set

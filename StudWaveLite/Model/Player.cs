@@ -6,11 +6,20 @@ using System.Threading.Tasks;
 
 namespace StudWaveLite.Model
 {
-    public static class Player
+    public class Player
     {
-        private static int hunger = 100;
+        public Player(int hunger, int energy, int mood, int money, int study)
+        {
+            Hunger = hunger;
+            Energy = energy;
+            Mood = mood;
+            Money = money;
+            Study = study;
+        }
 
-        public static int Hunger
+        private int hunger;
+
+        public int Hunger
         { 
             get => hunger;
             set
@@ -23,9 +32,9 @@ namespace StudWaveLite.Model
             }
         }
 
-        private static int energy = 100;
+        private int energy;
 
-        public static int Energy
+        public int Energy
         {
             get => energy;
             set
@@ -38,9 +47,9 @@ namespace StudWaveLite.Model
             }
         }
 
-        private static int mood = 50;
+        private int mood;
 
-        public static int Mood
+        public int Mood
         {
             get => mood;
             set
@@ -53,9 +62,9 @@ namespace StudWaveLite.Model
             }
         }
 
-        private static int money = 1000;
+        private int money;
 
-        public static int Money
+        public int Money
         {
             get => money;
             set
@@ -66,9 +75,9 @@ namespace StudWaveLite.Model
             }
         }
 
-        private static int study = 50;
+        private int study;
 
-        public static int Study
+        public int Study
         {
             get => study;
             set

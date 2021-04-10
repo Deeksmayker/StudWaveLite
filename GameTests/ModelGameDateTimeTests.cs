@@ -11,12 +11,10 @@ namespace GameTests
         [Test]
         public void SimpleDatePropertysTests()
         {
-            StudWaveLite.Model.GameDateTime.Month = 13;
-            Assert.AreEqual(1, StudWaveLite.Model.GameDateTime.Month);
-            StudWaveLite.Model.GameDateTime.Hour = 24;
-            Assert.AreEqual(0, StudWaveLite.Model.GameDateTime.Hour);
-            StudWaveLite.Model.GameDateTime.Minute = 60;
-            Assert.AreEqual(0, StudWaveLite.Model.GameDateTime.Minute);
+            var date = new StudWaveLite.Model.GameDateTime(13, 24, 61);
+            Assert.AreEqual(1, date.Month);
+            Assert.AreEqual(1, date.Hour);
+            Assert.AreEqual(1, date.Minute);
         }
     }
 }
