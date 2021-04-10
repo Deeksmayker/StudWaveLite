@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StudWaveLite.Model
 {
-    class Player
+    public static class Player
     {
         private static int hunger = 100;
 
