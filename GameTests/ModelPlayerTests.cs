@@ -13,7 +13,7 @@ namespace GameTests
         }
 
         [Test]
-        public void SimplePropertysTest()
+        public void SimplePlayerPropertysTest()
         {
             StudWaveLite.Model.Player.Hunger = 101;
             Assert.AreEqual(100, StudWaveLite.Model.Player.Hunger);

@@ -8,6 +8,6 @@ namespace StudWaveLite.Model
 {
     class World
     {
-        private DateTime date = new DateTime(2021, 9, 1, 0, 0, 0);
+        
     }
 }
