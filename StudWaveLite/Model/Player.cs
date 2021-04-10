@@ -8,9 +8,9 @@ namespace StudWaveLite.Model
 {
     class Player
     {
-        private int hunger = 100;
+        private static int hunger = 100;
 
-        public int Hunger
+        public static int Hunger
         { 
             get => hunger;
             set
@@ -23,9 +23,9 @@ namespace StudWaveLite.Model
             }
         }
 
-        private int energy = 100;
+        private static int energy = 100;
 
-        public int Energy
+        public static int Energy
         {
             get => energy;
             set
@@ -38,9 +38,9 @@ namespace StudWaveLite.Model
             }
         }
 
-        private int mood = 50;
+        private static int mood = 50;
 
-        public int Mood
+        public static int Mood
         {
             get => mood;
             set
@@ -53,9 +53,9 @@ namespace StudWaveLite.Model
             }
         }
 
-        private int money = 1000;
+        private static int money = 1000;
 
-        public int Money
+        public static int Money
         {
             get => money;
             set
@@ -66,9 +66,9 @@ namespace StudWaveLite.Model
             }
         }
 
-        private int study = 50;
+        private static int study = 50;
 
-        public int Study
+        public static int Study
         {
             get => study;
             set
