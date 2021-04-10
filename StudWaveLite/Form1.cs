@@ -15,9 +15,6 @@ namespace StudWaveLite
         public Form1()
         {
             InitializeComponent();
-            var a = 324;
-            var fdsa = 234;
-            var fsdsfdsdfg = "FSD";
         }
     }
 }
