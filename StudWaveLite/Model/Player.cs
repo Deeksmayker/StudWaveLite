@@ -65,5 +65,20 @@ namespace StudWaveLite.Model
                 money = value;
             }
         }
+
+        private int study = 50;
+
+        public int Study
+        {
+            get => study;
+            set
+            {
+                if (value <= 0)
+                    throw new Exception("Числанули тебя. В армейку пора, чел");
+                if (value > 100)
+                    value = 100;
+                study = value;
+            }
+        }
     }
 }
