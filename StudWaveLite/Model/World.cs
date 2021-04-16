@@ -8,19 +8,37 @@ namespace StudWaveLite.Model
 {
     public class World
     {
-        private int sportStat;
+        private int sport;
 
-        public int SportStat
+        public int Sport
         {
-            get => sportStat;
-            set
-            {
-                if (value - sportStat > 1)
-                    throw new Exception("Выбор за спорт насчитался больше одного");
-                if (value < 0)
-                    value = 0;
-                sportStat = value;
-            }
+            get => sport;
+            set => sport = value >= 0 ? value : 0;
+        }
+
+        private int knowledge;
+
+        public int Knowledge
+        {
+            get => knowledge;
+            set => knowledge = value >= 0 ? value : 0;
+        }
+
+        private int sociability;
+
+        public int Sociability
+        {
+            get => sociability;
+            set => sociability = value >= 0 ? value : 0;
+            
+        }
+
+        private int parents;
+
+        public int Parents
+        {
+            get => parents;
+            set => parents = value >= 0 ? value : 0;
         }
     }
 }
