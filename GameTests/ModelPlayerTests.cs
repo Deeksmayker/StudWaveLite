@@ -15,7 +15,7 @@ namespace GameTests
         [Test]
         public void SimplePlayerPropertysTest()
         {
-            var player = new StudWaveLite.Model.Player(101, 234, 2354, 100000, 135235);
+            var player = new Player(101, 234, 2354, 100000, 135235);
             Assert.AreEqual(100, player.Hunger);
             Assert.AreEqual(100, player.Energy);
             Assert.AreEqual(100, player.Mood);
