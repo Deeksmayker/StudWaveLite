@@ -15,6 +15,11 @@ namespace StudWaveLite
         public Form1()
         {
             InitializeComponent();
+            var label = new Label();
+            label.Location = new Point(0, 0);
+            label.Size = new Size(ClientSize.Width, 30);
+            label.Text = "Давай давай давай давай";
+            Controls.Add(label);
         }
     }
 }
