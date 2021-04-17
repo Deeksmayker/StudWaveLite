@@ -15,7 +15,8 @@ namespace GameTests
         [Test]
         public void SimplePlayerPropertysTest()
         {
-            var player = new Player(101, 234, 2354, 100000, 135235);
+            var player = new Player(103, 101, 234, 2354, 100000, 135235);
+            Assert.AreEqual(100, player.Health);
             Assert.AreEqual(100, player.Hunger);
             Assert.AreEqual(100, player.Energy);
             Assert.AreEqual(100, player.Mood);

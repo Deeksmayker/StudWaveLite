@@ -8,13 +8,29 @@ namespace StudWaveLite.Model
 {
     public class Player
     {
-        public Player(int hunger, int energy, int mood, int money, int study)
+        public Player(int health, int hunger, int energy, int mood, int money, int study)
         {
+            Health = health;
             Hunger = hunger;
             Energy = energy;
             Mood = mood;
             Money = money;
             Study = study;
+        }
+
+        private int health;
+
+        public int Health
+        {
+            get => health;
+            set
+            {
+                if (value <= 0)
+                    throw new Exception("Ты умер, чел");
+                if (value > 100)
+                    value = 100;
+                health = value;
+            }
         }
 
         private int hunger;
