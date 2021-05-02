@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,14 +16,23 @@ namespace StudWaveLite
     public partial class Form1 : Form
     {
         public Label TextLabel;
+        public Button FirstChoiceButton;
+        public Button SecondChoiceButton;
+        public Button ThirdChoiceButton;
 
         public Form1()
         {
             InitializeComponent();
 
             TextLabel = GetTextLabel();
-
             Controls.Add(TextLabel);
+            FirstChoiceButton = GetChoiceButton(1);
+            SecondChoiceButton = GetChoiceButton(1.5);
+            ThirdChoiceButton = GetChoiceButton(2);
+
+            Controls.Add(FirstChoiceButton);
+            Controls.Add(SecondChoiceButton);
+            Controls.Add(ThirdChoiceButton);
 
         }
 
@@ -43,6 +53,25 @@ namespace StudWaveLite
             };
 
             return label;
+        }
+
+        public Button GetChoiceButton(double yLocation)
+        {
+            var button = new Button();
+            button.Location = new Point(ClientSize.Width / 5, (int)(ClientSize.Height / 3 * yLocation));
+            button.Size = new Size(width: ClientSize.Width - button.Location.X * 2, height: ClientSize.Height / 10);
+            button.Text = "Arevuar maman";
+            button.Font = new Font(button.Font.FontFamily, ClientSize.Width / 70);
+            button.TextAlign = (ContentAlignment)HorizontalAlignment.Center;
+
+            SizeChanged += (sender, args) =>
+            {
+                button.Location = new Point(ClientSize.Width / 5, (int)(ClientSize.Height / 3 * yLocation));
+                button.Size = new Size(width: ClientSize.Width - button.Location.X * 2, height: ClientSize.Height / 10);
+                button.Font = new Font(button.Font.FontFamily, ClientSize.Width / 70);
+            };
+
+            return button;
         }
     }
 }
