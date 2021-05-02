@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,6 +32,14 @@ namespace StudWaveLite.Model
             get => sociability;
             set => sociability = value >= 0 ? value : 0;
             
+        }
+
+        private int cooking;
+
+        public int Cooking
+        {
+            get => cooking;
+            set => cooking = value;
         }
 
         private int parents;
