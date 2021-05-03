@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using StudWaveLite.Model;
 
 
 namespace StudWaveLite
@@ -22,6 +23,7 @@ namespace StudWaveLite
         public Button SecondChoiceButton;
         public Button ThirdChoiceButton;
         public Label DateInfoLabel;
+        public Tuple<ProgressBar, Label> StatBar;
 
         public Form1()
         {
@@ -43,6 +45,10 @@ namespace StudWaveLite
             DateInfoLabel = GetDateInfoLabel();
             GamePanel.Controls.Add(DateInfoLabel);
 
+            StatBar = GetStatBar("Здоровье");
+            
+            GamePanel.Controls.Add(StatBar.Item1);
+            GamePanel.Controls.Add(StatBar.Item2);
         }
 
         public Panel GetGamePanel()
@@ -99,22 +105,50 @@ namespace StudWaveLite
         public Label GetDateInfoLabel()
         {
             var label = new Label();
+            var date = new DateInfo();
 
-            label.Location = new Point(20, 20);
-            label.Size = new Size(ClientSize.Width / 10, ClientSize.Height / 10);
+            label.Location = new Point(40, 40);
+            label.Size = new Size(ClientSize.Width / 14, ClientSize.Height / 10);
             label.BackColor = Color.Beige;
-            label.Text = "SFD";
+            label.Text = date.GetDateAndCourse();
             label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 96);
             label.TextAlign = (ContentAlignment)HorizontalAlignment.Center;
 
             SizeChanged += (sender, args) =>
             {
-                label.Size = new Size(ClientSize.Width / 10, ClientSize.Height / 10);
+                label.Size = new Size(ClientSize.Width / 14, ClientSize.Height / 10);
                 label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 96);
                 label.TextAlign = (ContentAlignment)HorizontalAlignment.Center;
             };
 
             return label;
+        }
+
+        public Tuple<ProgressBar, Label> GetStatBar(string statName)
+        {
+            var bar = new ProgressBar();
+            var label = new Label();
+
+            bar.Location = new Point(ClientSize.Width / 50, (int)(ClientSize.Height / 1.15));
+            bar.Size = new Size(ClientSize.Width / 5, ClientSize.Height / 20);
+
+            label.Location = new Point(bar.Location.X, bar.Location.Y - bar.Size.Height);
+            label.Size = bar.Size;
+            label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 96);
+            label.TextAlign = (ContentAlignment)HorizontalAlignment.Center;
+            label.Text = statName;
+
+            SizeChanged += (sender, args) =>
+            {
+                bar.Location = new Point(ClientSize.Width / 50, (int) (ClientSize.Height / 1.15));
+                bar.Size = new Size(ClientSize.Width / 5, ClientSize.Height / 20);
+
+                label.Location = new Point(bar.Location.X, bar.Location.Y - bar.Size.Height);
+                label.Size = bar.Size;
+                label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 96);
+            };
+
+            return Tuple.Create(bar, label);
         }
     }
 }

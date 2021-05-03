@@ -9,14 +9,16 @@ namespace StudWaveLite.Model
 {
     public class DateInfo
     {
-        private enum Months
+        #region EnumAndProperties
+
+        public enum Months
         {
             Январь = 1,
             Февраль = 2,
-            Март = 3, 
+            Март = 3,
             Апрель = 4,
             Май = 5,
-            Июнь = 6, 
+            Июнь = 6,
             Июль = 7,
             Август = 8,
             Сентябрь = 9,
@@ -25,15 +27,7 @@ namespace StudWaveLite.Model
             Декабрь = 12
         }
 
-        public DateInfo(int month, int hour, int minute)
-        {
-            var a = (Months) 1;
-            Month = month;
-            Hour = hour;
-            Minute = minute;
-        }
-
-        private int month;
+        private int month = 8;
 
         public int Month
         {
@@ -50,41 +44,26 @@ namespace StudWaveLite.Model
             }
         }
 
-        private int year = 2021;
+        private int year = 2020;
 
         public int Year
         {
             get => year;
         }
 
-        private int hour;
+        private int course = 0;
 
-        public int Hour
+        public int Course
         {
-            get => hour;
-            set
-            {
-                if (value >= 24)
-                    value -= 24;
-                hour = value;
-            }
+            get => course;
+            set => course = value < course ? throw new Exception("Курс стал меньше, как") : value;
         }
 
-        private int minute;
+        #endregion
 
-        public int Minute
+        public string GetDateAndCourse()
         {
-            get => minute;
-            set
-            {
-                if (value >= 60)
-                {
-                    value -= 60;
-                    hour++;
-                }
-
-                minute = value;
-            }
+            return String.Format("{0} {1} год {2} курс", (Months) month, year, course);
         }
     }
 }

@@ -11,10 +11,14 @@ namespace GameTests
         [Test]
         public void SimpleDatePropertysTests()
         {
-            var date = new DateInfo(13, 24, 61);
+            var date = new DateInfo();
+            date.Month = 13;
+            date.Course++;
+
+            Assert.AreEqual("Январь", ((DateInfo.Months)date.Month).ToString());
             Assert.AreEqual(1, date.Month);
-            Assert.AreEqual(1, date.Hour);
-            Assert.AreEqual(1, date.Minute);
+            Assert.AreEqual(2021, date.Year);
+            Assert.AreEqual(2, date.Course);
         }
     }
 }
