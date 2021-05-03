@@ -16,6 +16,8 @@ namespace StudWaveLite
 {
     public partial class Form1 : Form
     {
+        private const int FontSizeSeparator = 96;
+
         public Panel GamePanel;
 
         public Label TextLabel;
@@ -23,7 +25,9 @@ namespace StudWaveLite
         public Button SecondChoiceButton;
         public Button ThirdChoiceButton;
         public Label DateInfoLabel;
-        public Tuple<ProgressBar, Label> StatBar;
+        public Tuple<ProgressBar, Label> HealthBar;
+        public Tuple<ProgressBar, Label> MoodBar;
+        public Tuple<ProgressBar, Label> StudyBar;
 
         public Form1()
         {
@@ -45,10 +49,17 @@ namespace StudWaveLite
             DateInfoLabel = GetDateInfoLabel();
             GamePanel.Controls.Add(DateInfoLabel);
 
-            StatBar = GetStatBar("Здоровье");
-            
-            GamePanel.Controls.Add(StatBar.Item1);
-            GamePanel.Controls.Add(StatBar.Item2);
+            HealthBar = GetStatBar("Здоровье", 1);
+            GamePanel.Controls.Add(HealthBar.Item1);
+            GamePanel.Controls.Add(HealthBar.Item2);
+
+            MoodBar = GetStatBar("Настроение", 6);
+            GamePanel.Controls.Add(MoodBar.Item1);
+            GamePanel.Controls.Add(MoodBar.Item2);
+
+            StudyBar = GetStatBar("Учеба", 11);
+            GamePanel.Controls.Add(StudyBar.Item1);
+            GamePanel.Controls.Add(StudyBar.Item2);
         }
 
         public Panel GetGamePanel()
@@ -71,13 +82,13 @@ namespace StudWaveLite
             label.BackColor = Color.AliceBlue;
             label.Text = "YOS 123 готов мальчик? Но все таки что тебе можно сказать так это то что все таки в этом мире сказать иногда не достаточно, поэтому стоит думать своей головой прежде чем идти на упреждение, понимаешь о чем я, надедюсь, тут не сложно понять, в принципе.";
             label.Size = new Size(width: ClientSize.Width - label.Location.X * 2, height: ClientSize.Height / 4);
-            label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 96);
+            label.Font = new Font(label.Font.FontFamily, ClientSize.Width / FontSizeSeparator);
             label.TextAlign = (ContentAlignment)HorizontalAlignment.Center;
             SizeChanged += (sender, args) =>
             {
                 label.Location = new Point(ClientSize.Width / 6, 20);
                 label.Size = new Size(width: ClientSize.Width - label.Location.X * 2, height: ClientSize.Height / 4);
-                label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 96);
+                label.Font = new Font(label.Font.FontFamily, ClientSize.Width / FontSizeSeparator);
             };
 
             return label;
@@ -111,41 +122,41 @@ namespace StudWaveLite
             label.Size = new Size(ClientSize.Width / 14, ClientSize.Height / 10);
             label.BackColor = Color.Beige;
             label.Text = date.GetDateAndCourse();
-            label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 96);
+            label.Font = new Font(label.Font.FontFamily, ClientSize.Width / FontSizeSeparator);
             label.TextAlign = (ContentAlignment)HorizontalAlignment.Center;
 
             SizeChanged += (sender, args) =>
             {
                 label.Size = new Size(ClientSize.Width / 14, ClientSize.Height / 10);
-                label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 96);
+                label.Font = new Font(label.Font.FontFamily, ClientSize.Width / FontSizeSeparator);
                 label.TextAlign = (ContentAlignment)HorizontalAlignment.Center;
             };
 
             return label;
         }
 
-        public Tuple<ProgressBar, Label> GetStatBar(string statName)
+        public Tuple<ProgressBar, Label> GetStatBar(string statName, double xLocation)
         {
             var bar = new ProgressBar();
             var label = new Label();
 
-            bar.Location = new Point(ClientSize.Width / 50, (int)(ClientSize.Height / 1.15));
+            bar.Location = new Point((int)(ClientSize.Width / 20 * xLocation), (int) (ClientSize.Height / 1.15));
             bar.Size = new Size(ClientSize.Width / 5, ClientSize.Height / 20);
 
             label.Location = new Point(bar.Location.X, bar.Location.Y - bar.Size.Height);
             label.Size = bar.Size;
-            label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 96);
+            label.Font = new Font(label.Font.FontFamily, ClientSize.Width / FontSizeSeparator);
             label.TextAlign = (ContentAlignment)HorizontalAlignment.Center;
             label.Text = statName;
 
             SizeChanged += (sender, args) =>
             {
-                bar.Location = new Point(ClientSize.Width / 50, (int) (ClientSize.Height / 1.15));
+                bar.Location = new Point((int)(ClientSize.Width / 20 * xLocation), (int)(ClientSize.Height / 1.15));
                 bar.Size = new Size(ClientSize.Width / 5, ClientSize.Height / 20);
 
                 label.Location = new Point(bar.Location.X, bar.Location.Y - bar.Size.Height);
                 label.Size = bar.Size;
-                label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 96);
+                label.Font = new Font(label.Font.FontFamily, ClientSize.Width / FontSizeSeparator);
             };
 
             return Tuple.Create(bar, label);
