@@ -15,25 +15,47 @@ namespace StudWaveLite
 {
     public partial class Form1 : Form
     {
+        public Panel GamePanel;
+
         public Label TextLabel;
         public Button FirstChoiceButton;
         public Button SecondChoiceButton;
         public Button ThirdChoiceButton;
+        public Label DateInfoLabel;
 
         public Form1()
         {
             InitializeComponent();
 
+            GamePanel = GetGamePanel();
+            Controls.Add(GamePanel);
+
             TextLabel = GetTextLabel();
-            Controls.Add(TextLabel);
+            GamePanel.Controls.Add(TextLabel);
+
             FirstChoiceButton = GetChoiceButton(1);
             SecondChoiceButton = GetChoiceButton(1.5);
             ThirdChoiceButton = GetChoiceButton(2);
+            GamePanel.Controls.Add(FirstChoiceButton);
+            GamePanel.Controls.Add(SecondChoiceButton);
+            GamePanel.Controls.Add(ThirdChoiceButton);
 
-            Controls.Add(FirstChoiceButton);
-            Controls.Add(SecondChoiceButton);
-            Controls.Add(ThirdChoiceButton);
+            DateInfoLabel = GetDateInfoLabel();
+            GamePanel.Controls.Add(DateInfoLabel);
 
+        }
+
+        public Panel GetGamePanel()
+        {
+            var panel = new Panel();
+            panel.Size = new Size(ClientSize.Width, ClientSize.Height);
+
+            SizeChanged += (sender, args) =>
+            {
+                panel.Size = new Size(ClientSize.Width, ClientSize.Height);
+            };
+
+            return panel;
         }
 
         public Label GetTextLabel()
@@ -72,6 +94,27 @@ namespace StudWaveLite
             };
 
             return button;
+        }
+
+        public Label GetDateInfoLabel()
+        {
+            var label = new Label();
+
+            label.Location = new Point(20, 20);
+            label.Size = new Size(ClientSize.Width / 10, ClientSize.Height / 10);
+            label.BackColor = Color.Beige;
+            label.Text = "SFD";
+            label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 96);
+            label.TextAlign = (ContentAlignment)HorizontalAlignment.Center;
+
+            SizeChanged += (sender, args) =>
+            {
+                label.Size = new Size(ClientSize.Width / 10, ClientSize.Height / 10);
+                label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 96);
+                label.TextAlign = (ContentAlignment)HorizontalAlignment.Center;
+            };
+
+            return label;
         }
     }
 }

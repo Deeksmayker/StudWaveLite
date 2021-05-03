@@ -7,10 +7,27 @@ using System.Threading.Tasks;
 
 namespace StudWaveLite.Model
 {
-    public class GameDateTime
+    public class DateInfo
     {
-        public GameDateTime(int month, int hour, int minute)
+        private enum Months
         {
+            Январь = 1,
+            Февраль = 2,
+            Март = 3, 
+            Апрель = 4,
+            Май = 5,
+            Июнь = 6, 
+            Июль = 7,
+            Август = 8,
+            Сентябрь = 9,
+            Октябрь = 10,
+            Ноябрь = 11,
+            Декабрь = 12
+        }
+
+        public DateInfo(int month, int hour, int minute)
+        {
+            var a = (Months) 1;
             Month = month;
             Hour = hour;
             Minute = minute;
@@ -38,7 +55,6 @@ namespace StudWaveLite.Model
         public int Year
         {
             get => year;
-            set => throw new Exception("Зачем меняешь год");
         }
 
         private int hour;

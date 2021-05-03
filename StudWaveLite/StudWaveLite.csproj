@@ -52,7 +52,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\GameDateTime.cs" />
+    <Compile Include="Model\DateInfo.cs" />
     <Compile Include="Model\World.cs" />
     <Compile Include="Model\Player.cs" />
     <Compile Include="Program.cs" />
