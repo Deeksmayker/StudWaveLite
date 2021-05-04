@@ -28,6 +28,7 @@ namespace StudWaveLite
         public Tuple<ProgressBar, Label> HealthBar;
         public Tuple<ProgressBar, Label> MoodBar;
         public Tuple<ProgressBar, Label> StudyBar;
+        public Label MoneyLabel;
 
         public Form1()
         {
@@ -53,13 +54,16 @@ namespace StudWaveLite
             GamePanel.Controls.Add(HealthBar.Item1);
             GamePanel.Controls.Add(HealthBar.Item2);
 
-            MoodBar = GetStatBar("Настроение", 6);
+            MoodBar = GetStatBar("Настроение", 8);
             GamePanel.Controls.Add(MoodBar.Item1);
             GamePanel.Controls.Add(MoodBar.Item2);
 
-            StudyBar = GetStatBar("Учеба", 11);
+            StudyBar = GetStatBar("Учеба", 15);
             GamePanel.Controls.Add(StudyBar.Item1);
             GamePanel.Controls.Add(StudyBar.Item2);
+
+            MoneyLabel = GetMoneyLabel();
+            GamePanel.Controls.Add(MoneyLabel);
         }
 
         public Panel GetGamePanel()
@@ -83,7 +87,7 @@ namespace StudWaveLite
             label.Text = "YOS 123 готов мальчик? Но все таки что тебе можно сказать так это то что все таки в этом мире сказать иногда не достаточно, поэтому стоит думать своей головой прежде чем идти на упреждение, понимаешь о чем я, надедюсь, тут не сложно понять, в принципе.";
             label.Size = new Size(width: ClientSize.Width - label.Location.X * 2, height: ClientSize.Height / 4);
             label.Font = new Font(label.Font.FontFamily, ClientSize.Width / FontSizeSeparator);
-            label.TextAlign = (ContentAlignment)HorizontalAlignment.Center;
+            label.TextAlign = ContentAlignment.TopCenter;
             SizeChanged += (sender, args) =>
             {
                 label.Location = new Point(ClientSize.Width / 6, 20);
@@ -101,7 +105,7 @@ namespace StudWaveLite
             button.Size = new Size(width: ClientSize.Width - button.Location.X * 2, height: ClientSize.Height / 10);
             button.Text = "Arevuar maman";
             button.Font = new Font(button.Font.FontFamily, ClientSize.Width / 70);
-            button.TextAlign = (ContentAlignment)HorizontalAlignment.Center;
+            button.TextAlign = ContentAlignment.MiddleCenter;
 
             SizeChanged += (sender, args) =>
             {
@@ -146,7 +150,7 @@ namespace StudWaveLite
             label.Location = new Point(bar.Location.X, bar.Location.Y - bar.Size.Height);
             label.Size = bar.Size;
             label.Font = new Font(label.Font.FontFamily, ClientSize.Width / FontSizeSeparator);
-            label.TextAlign = (ContentAlignment)HorizontalAlignment.Center;
+            label.TextAlign = ContentAlignment.MiddleCenter;
             label.Text = statName;
 
             SizeChanged += (sender, args) =>
@@ -160,6 +164,27 @@ namespace StudWaveLite
             };
 
             return Tuple.Create(bar, label);
+        }
+
+        public Label GetMoneyLabel()
+        {
+            var label = new Label();
+
+            label.Location = new Point((int) (ClientSize.Width / 1.15), 40);
+            label.Size = new Size(ClientSize.Width / 9, ClientSize.Height / 12);
+            label.BackColor = Color.Beige;
+            label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 60);
+            label.Text = "₽ 229111";
+            label.TextAlign = ContentAlignment.MiddleCenter;
+
+            SizeChanged += (sender, args) =>
+            {
+                label.Location = new Point((int) (ClientSize.Width / 1.15), 40);
+                label.Size = new Size(ClientSize.Width / 9, ClientSize.Height / 12);
+                label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 60);
+            };
+
+            return label;
         }
     }
 }
