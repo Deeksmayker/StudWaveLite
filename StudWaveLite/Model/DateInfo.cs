@@ -9,6 +9,8 @@ namespace StudWaveLite.Model
 {
     public class DateInfo
     {
+        public static DateInfo Instance = new DateInfo();
+
         #region EnumAndProperties
 
         public enum Months

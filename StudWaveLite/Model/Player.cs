@@ -8,17 +8,9 @@ namespace StudWaveLite.Model
 {
     public class Player
     {
-        public Player(int health, int hunger, int energy, int mood, int money, int study)
-        {
-            Health = health;
-            Hunger = hunger;
-            Energy = energy;
-            Mood = mood;
-            Money = money;
-            Study = study;
-        }
+        public static Player Instance = new Player();
 
-        private int health;
+        private int health = 100;
 
         public int Health
         {
@@ -33,37 +25,37 @@ namespace StudWaveLite.Model
             }
         }
 
-        private int hunger;
+        //private int hunger;
 
-        public int Hunger
-        { 
-            get => hunger;
-            set
-            {
-                if (value <= 0)
-                    throw new Exception("Ты умираешь, чел");
-                if (value > 100)
-                    value = 100;
-                hunger = value;
-            }
-        }
+        //public int Hunger
+        //{ 
+        //    get => hunger;
+        //    set
+        //    {
+        //        if (value <= 0)
+        //            throw new Exception("Ты умираешь, чел");
+        //        if (value > 100)
+        //            value = 100;
+        //        hunger = value;
+        //    }
+        //}
 
-        private int energy;
+        //private int energy;
 
-        public int Energy
-        {
-            get => energy;
-            set
-            {
-                if (value <= 0)
-                    throw new Exception("Ты отрубился, чел");
-                if (value > 100)
-                    value = 100;
-                energy = value;
-            }
-        }
+        //public int Energy
+        //{
+        //    get => energy;
+        //    set
+        //    {
+        //        if (value <= 0)
+        //            throw new Exception("Ты отрубился, чел");
+        //        if (value > 100)
+        //            value = 100;
+        //        energy = value;
+        //    }
+        //}
 
-        private int mood;
+        private int mood = 50;
 
         public int Mood
         {
@@ -78,7 +70,7 @@ namespace StudWaveLite.Model
             }
         }
 
-        private int money;
+        private int money = 10000;
 
         public int Money
         {
@@ -91,7 +83,7 @@ namespace StudWaveLite.Model
             }
         }
 
-        private int study;
+        private int study = 50;
 
         public int Study
         {
