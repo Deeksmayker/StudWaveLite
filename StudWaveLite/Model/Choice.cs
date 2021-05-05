@@ -11,8 +11,9 @@ namespace StudWaveLite.Model
         public string ChoiceText;
         public string SuccesAfterChoice;
         public string FailAfterChoice;
+        public string ButtonTextAfterChoice;
 
         public Func<bool> CheckSucces;
-        public Action<bool> PlayerInteract;
+        public Action<bool> WorldInteract;
     }
 }

@@ -17,6 +17,8 @@ namespace StudWaveLite
 {
     public partial class MainForm : Form
     {
+
+
         private const int FontSizeSeparator = 96;
 
         public Panel GamePanel;
@@ -32,9 +34,13 @@ namespace StudWaveLite
         public Label MoneyLabel;
 
         private Player player;
+        private World world;
         private Dictionary<int, Dictionary<int, List<MonthEvent>>> plot;
         private DateInfo dateInfo;
 
+        private MonthEvent currentEvent;
+
+        //Игровые стадии в таком порядке: Еда на месяц => Активность в свободное время => Событие => по кругу
         public MainForm()
         {
             InitializeComponent();
@@ -46,6 +52,7 @@ namespace StudWaveLite
         private void StartNewGame()
         {
             player = Player.Instance;
+            world = World.Instance;
             plot = Plot.GetPlotDictionary();
             dateInfo = DateInfo.Instance;
 
@@ -53,15 +60,90 @@ namespace StudWaveLite
             HealthBar.Item1.Value = player.Health;
             MoodBar.Item1.Value = player.Mood;
             StudyBar.Item1.Value = player.Study;
-            MoneyLabel.Text = "₽ " + player.Money.ToString();
+            MoneyLabel.Text = player.GetMoney();
 
             TextLabel.Text = plot[0][8][0].TextEvent;
             FirstChoiceButton.Text = plot[0][8][0].FirstChoice.ChoiceText;
+            currentEvent = plot[0][8][0];
             FirstChoiceButton.Click += (sender, args) =>
             {
-                plot[0][8][0].FirstChoice.PlayerInteract(true);
-                TextLabel.Text = plot[0][8][0].FirstChoice.SuccesAfterChoice;
+                if (world.IsFoodStage)
+                {
+                    player.Money -= 5000;
+                    player.Health += 10;
+                    player.Mood -= 5;
+
+                    //Подготовка стадии свободного времени
+                    TextLabel.Text = "Чем будешь заниматься в свободное время";
+                    FirstChoiceButton.Text = "Пора и за ум взяться";
+                    SecondChoiceButton.Text = "Спорт мой выбор";
+                    ThirdChoiceButton.Text = "Поработали пора и честь знать.....";
+
+                    world.IsFoodStage = false;
+                    world.IsFreeActivityStage = true;
+                }
+
+                else if (world.IsFreeActivityStage)
+                {
+                    //Ну и тут по самой этой штуке
+                    player.Study += 10;
+                    player.Health -= 10;
+                    player.Mood -= 20;
+
+                    //Подготовка стадии события
+                    foreach (var monthEvent in plot[dateInfo.Course][dateInfo.Month])
+                    {
+                        if (monthEvent.IsAvailableEvent())
+                        {
+                            TextLabel.Text = monthEvent.TextEvent;
+                            FirstChoiceButton.Text = monthEvent.FirstChoice.ChoiceText;
+                            SecondChoiceButton.Text = monthEvent.SecondChoice.ChoiceText;
+                            ThirdChoiceButton.Text = monthEvent.ThirdChoice.ChoiceText;
+                            currentEvent = monthEvent;
+                        }
+                    }
+
+                    world.IsFreeActivityStage = false;
+                    world.IsEventStage = true;
+                }
+
+                else if (world.IsEventStage)
+                {
+                    currentEvent.FirstChoice.WorldInteract(currentEvent.FirstChoice.CheckSucces());
+
+                    //Подготовка стадии после события
+                    TextLabel.Text = currentEvent.FirstChoice.CheckSucces()
+                        ? currentEvent.FirstChoice.SuccesAfterChoice
+                        : currentEvent.FirstChoice.FailAfterChoice;
+                    FirstChoiceButton.Text = currentEvent.FirstChoice.ButtonTextAfterChoice;
+
+                    world.IsEventStage = false;
+                    world.IsAfterEventStage = true;
+                }
+
+                else if (world.IsAfterEventStage)
+                {
+                    //Подготовка стадии выбора еды
+                    TextLabel.Text = "Что будем есть на этот раз";
+                    FirstChoiceButton.Text = "В этот раз готовить буду сам (5к рупий)";
+                    SecondChoiceButton.Text = "Думаю и в кафе иногда можно сгонять (8к)";
+                    ThirdChoiceButton.Text = "доши к.....(за две уложимся....)";
+
+                    world.IsAfterEventStage = false;
+                    world.IsFoodStage = true;
+                }
+
+                RefreshAllStats();
             };
+        }
+
+        private void RefreshAllStats()
+        {
+            DateInfoLabel.Text = dateInfo.GetDateAndCourse();
+            MoneyLabel.Text = player.GetMoney();
+            HealthBar.Item1.Value = player.Health;
+            MoodBar.Item1.Value = player.Mood;
+            StudyBar.Item1.Value = player.Study;
         }
 
         #region Interface

@@ -83,6 +83,8 @@ namespace StudWaveLite.Model
             }
         }
 
+        public string GetMoney() => "₽ " + money;
+
         private int study = 50;
 
         public int Study

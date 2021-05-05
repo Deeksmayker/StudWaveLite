@@ -24,13 +24,21 @@ namespace StudWaveLite.Model
                         ChoiceText = "Понимаю",
                         SuccesAfterChoice = "Ну вот ты приехал и заселился, пора думать",
                         CheckSucces = () => true,
-                        PlayerInteract = b =>
+                        WorldInteract = b =>
                         {
                             DateInfo.Instance.Course++;
                             DateInfo.Instance.Month++;
-                        }
-                    }
+                        },
+                        ButtonTextAfterChoice = "И правда пора"
+                    },
+                    IsAvailableEvent = () => true
                 }
+            });
+
+            var firstCourse = new Dictionary<int, List<MonthEvent>>();
+            firstCourse.Add(9, new List<MonthEvent>
+            {
+                new MonthEvent()
             });
 
             plotDictionary = new Dictionary<int, Dictionary<int, List<MonthEvent>>>();
