@@ -76,7 +76,6 @@ namespace StudWaveLite
 
                 else if (world.IsFreeActivityStage)
                 {
-                    //Ну и тут по самой этой штуке
                     player.Study += 10;
                     player.Health -= 10;
                     player.Mood -= 20;
@@ -87,12 +86,57 @@ namespace StudWaveLite
                     currentEvent.FirstChoice.WorldInteract(currentEvent.FirstChoice.CheckSucces());
                 }
 
-                else if (world.IsAfterEventStage)
-                {
+                PrepareNextStage(currentEvent.FirstChoice);
+                RefreshAllStats();
+            };
 
+            SecondChoiceButton.Click += (sender, args) =>
+            {
+                if (world.IsFoodStage)
+                {
+                    player.Money -= 8000;
+                    player.Health += 5;
+                    player.Mood += 10;
                 }
 
-                PrepareNextStage(currentEvent.FirstChoice);
+                else if (world.IsFreeActivityStage)
+                {
+                    player.Study -= 10;
+                    player.Health += 10;
+                    player.Mood -= 10;
+                }
+
+                else if (world.IsEventStage)
+                {
+                    currentEvent.SecondChoice.WorldInteract(currentEvent.SecondChoice.CheckSucces());
+                }
+
+                PrepareNextStage(currentEvent.SecondChoice);
+                RefreshAllStats();
+            };
+
+            ThirdChoiceButton.Click += (sender, args) =>
+            {
+                if (world.IsFoodStage)
+                {
+                    player.Money -= 2000;
+                    player.Health -= 20;
+                    player.Mood -= 20;
+                }
+
+                else if (world.IsFreeActivityStage)
+                {
+                    player.Study -= 20;
+                    player.Health -= 10;
+                    player.Mood += 20;
+                }
+
+                else if (world.IsEventStage)
+                {
+                    currentEvent.ThirdChoice.WorldInteract(currentEvent.ThirdChoice.CheckSucces());
+                }
+
+                PrepareNextStage(currentEvent.ThirdChoice);
                 RefreshAllStats();
             };
         }
@@ -239,7 +283,6 @@ namespace StudWaveLite
             var button = new Button();
             button.Location = new Point(ClientSize.Width / 5, (int)(ClientSize.Height / 3 * yLocation));
             button.Size = new Size(width: ClientSize.Width - button.Location.X * 2, height: ClientSize.Height / 10);
-            button.Text = "Arevuar maman";
             button.Font = new Font(button.Font.FontFamily, ClientSize.Width / 70);
             button.TextAlign = ContentAlignment.MiddleCenter;
 
