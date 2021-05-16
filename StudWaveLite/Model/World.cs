@@ -9,8 +9,6 @@ namespace StudWaveLite.Model
 {
     public class World
     {
-        public static World Instance = new World();
-
         //Игровые стадии в таком порядке: Еда на месяц => Активность в свободное время => Событие => После события => по кругу
 
         public bool IsFoodStage;

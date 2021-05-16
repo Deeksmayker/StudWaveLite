@@ -17,8 +17,6 @@ namespace StudWaveLite
 {
     public partial class MainForm : Form
     {
-
-
         private const int FontSizeSeparator = 96;
 
         public Panel GamePanel;
@@ -43,6 +41,10 @@ namespace StudWaveLite
         //Игровые стадии в таком порядке: Еда на месяц => Активность в свободное время => Событие => по кругу
         public MainForm()
         {
+            player = new Player();
+            world = new World();
+            dateInfo = new DateInfo();
+
             InitializeComponent();
             DrawInterface();
 
@@ -51,10 +53,7 @@ namespace StudWaveLite
 
         private void StartNewGame()
         {
-            player = Player.Instance;
-            world = World.Instance;
-            plot = Plot.GetPlotDictionary();
-            dateInfo = DateInfo.Instance;
+            plot = Plot.GetPlotDictionary(player, world, dateInfo);
 
             DateInfoLabel.Text = dateInfo.GetDateAndCourse();
             HealthBar.Item1.Value = player.Health;
@@ -65,6 +64,7 @@ namespace StudWaveLite
             TextLabel.Text = plot[0][8][0].TextEvent;
             FirstChoiceButton.Text = plot[0][8][0].FirstChoice.ChoiceText;
             currentEvent = plot[0][8][0];
+
             FirstChoiceButton.Click += (sender, args) =>
             {
                 if (world.IsFoodStage)
@@ -167,6 +167,8 @@ namespace StudWaveLite
                         SecondChoiceButton.Text = monthEvent.SecondChoice.ChoiceText;
                         ThirdChoiceButton.Text = monthEvent.ThirdChoice.ChoiceText;
                         currentEvent = monthEvent;
+
+                        break;
                     }
                 }
 

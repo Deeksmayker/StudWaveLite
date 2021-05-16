@@ -11,7 +11,7 @@ namespace StudWaveLite.Model
         //Первый ключ - курс, во втором словаре ключ - месяц. На каждый месяц минимум одно событие.
         private static Dictionary<int, Dictionary<int, List<MonthEvent>>> plotDictionary;
 
-        public static Dictionary<int, Dictionary<int, List<MonthEvent>>> GetPlotDictionary()
+        public static Dictionary<int, Dictionary<int, List<MonthEvent>>> GetPlotDictionary(Player player, World world, DateInfo dateInfo)
         {
             var zeroCourse = new Dictionary<int, List<MonthEvent>>();
             zeroCourse.Add(8, new List<MonthEvent>
@@ -26,8 +26,8 @@ namespace StudWaveLite.Model
                         CheckSucces = () => true,
                         WorldInteract = b =>
                         {
-                            DateInfo.Instance.Course++;
-                            DateInfo.Instance.Month++;
+                            dateInfo.Course++;
+                            dateInfo.Month++;
                         },
                         ButtonTextAfterChoice = "И правда пора"
                     },

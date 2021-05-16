@@ -8,8 +8,6 @@ namespace StudWaveLite.Model
 {
     public class Player
     {
-        public static Player Instance = new Player();
-
         private int health = 100;
 
         public int Health
