@@ -33,7 +33,7 @@ namespace StudWaveLite
 
         private Player player;
         private World world;
-        private Dictionary<int, Dictionary<int, List<MonthEvent>>> plot;
+        private Plot plot;
         private DateInfo dateInfo;
 
         private MonthEvent currentEvent;
@@ -53,7 +53,7 @@ namespace StudWaveLite
 
         private void StartNewGame()
         {
-            plot = Plot.GetPlotDictionary(player, world, dateInfo);
+            plot = new Plot(player, world, dateInfo);
 
             DateInfoLabel.Text = dateInfo.GetDateAndCourse();
             HealthBar.Item1.Value = player.Health;
@@ -61,9 +61,9 @@ namespace StudWaveLite
             StudyBar.Item1.Value = player.Study;
             MoneyLabel.Text = player.GetMoney();
 
-            TextLabel.Text = plot[0][8][0].TextEvent;
-            FirstChoiceButton.Text = plot[0][8][0].FirstChoice.ChoiceText;
-            currentEvent = plot[0][8][0];
+            currentEvent = plot.GetAvailableMonthEvent(0, 8);
+            TextLabel.Text = currentEvent.TextEvent;
+            FirstChoiceButton.Text = currentEvent.FirstChoice.ChoiceText;
 
             FirstChoiceButton.Click += (sender, args) =>
             {
@@ -84,6 +84,8 @@ namespace StudWaveLite
                 else if (world.IsEventStage)
                 {
                     currentEvent.FirstChoice.WorldInteract(currentEvent.FirstChoice.CheckSucces());
+                    dateInfo.Month++;
+                    player.Money += 2000;
                 }
 
                 PrepareNextStage(currentEvent.FirstChoice);
@@ -109,6 +111,7 @@ namespace StudWaveLite
                 else if (world.IsEventStage)
                 {
                     currentEvent.SecondChoice.WorldInteract(currentEvent.SecondChoice.CheckSucces());
+                    dateInfo.Month++;
                 }
 
                 PrepareNextStage(currentEvent.SecondChoice);
@@ -134,6 +137,7 @@ namespace StudWaveLite
                 else if (world.IsEventStage)
                 {
                     currentEvent.ThirdChoice.WorldInteract(currentEvent.ThirdChoice.CheckSucces());
+                    dateInfo.Month++;
                 }
 
                 PrepareNextStage(currentEvent.ThirdChoice);
@@ -158,19 +162,11 @@ namespace StudWaveLite
             else if (world.IsFreeActivityStage)
             {
                 //Подготовка стадии события
-                foreach (var monthEvent in plot[dateInfo.Course][dateInfo.Month])
-                {
-                    if (monthEvent.IsAvailableEvent())
-                    {
-                        TextLabel.Text = monthEvent.TextEvent;
-                        FirstChoiceButton.Text = monthEvent.FirstChoice.ChoiceText;
-                        SecondChoiceButton.Text = monthEvent.SecondChoice.ChoiceText;
-                        ThirdChoiceButton.Text = monthEvent.ThirdChoice.ChoiceText;
-                        currentEvent = monthEvent;
-
-                        break;
-                    }
-                }
+                currentEvent = plot.GetAvailableMonthEvent(dateInfo.Course, dateInfo.Month);
+                TextLabel.Text = currentEvent.TextEvent;
+                FirstChoiceButton.Text = currentEvent.FirstChoice.ChoiceText;
+                SecondChoiceButton.Text = currentEvent.SecondChoice.ChoiceText;
+                ThirdChoiceButton.Text = currentEvent.ThirdChoice.ChoiceText;
 
                 world.IsFreeActivityStage = false;
                 world.IsEventStage = true;

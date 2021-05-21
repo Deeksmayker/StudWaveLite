@@ -21,7 +21,7 @@ namespace StudWaveLite.Model
         public int Sport
         {
             get => sport;
-            set => sport = value >= 0 ? value : 0;
+            set => sport = value;
         }
 
         private int knowledge;
@@ -29,7 +29,7 @@ namespace StudWaveLite.Model
         public int Knowledge
         {
             get => knowledge;
-            set => knowledge = value >= 0 ? value : 0;
+            set => knowledge = value;
         }
 
         private int sociability;
@@ -37,8 +37,8 @@ namespace StudWaveLite.Model
         public int Sociability
         {
             get => sociability;
-            set => sociability = value >= 0 ? value : 0;
-            
+            set => sociability = value;
+
         }
 
         private int cooking;

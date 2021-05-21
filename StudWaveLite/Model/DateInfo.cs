@@ -40,6 +40,9 @@ namespace StudWaveLite.Model
                     year++;
                 }
 
+                if (value == 9)
+                    Course++;
+
                 month = value;
             }
         }

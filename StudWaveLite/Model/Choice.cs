@@ -13,7 +13,7 @@ namespace StudWaveLite.Model
         public string FailAfterChoice;
         public string ButtonTextAfterChoice;
 
-        public Func<bool> CheckSucces;
+        public Func<bool> CheckSucces = () => true;
         public Action<bool> WorldInteract;
     }
 }
