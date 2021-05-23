@@ -29,7 +29,6 @@ namespace StudWaveLite.Model
                     {
                         ChoiceText = "Понимаю",
                         SuccesAfterChoice = "Ну вот ты приехал и заселился, пора думать",
-                        CheckSucces = () => true,
                         WorldInteract = b => { },
                         ButtonTextAfterChoice = "И правда пора"
                     },
@@ -43,7 +42,7 @@ namespace StudWaveLite.Model
                 new MonthEvent
                 {
                     TextEvent =
-                        "По классике, после поступления тебя зовут на встречу со своей группой. Уже на месте ты замечаешь что люди делятся на группы. К кому же подойти?",
+                        "Классическая ситуация. Сразу после поступления тебя зовут на встречу со своей группой. Уже на месте ты замечаешь что люди делятся на группы. К кому же подойти?",
                     FirstChoice = new Choice
                     {
                         ChoiceText = "Прямо в центре стоят спортсмены, думаю мне туда",

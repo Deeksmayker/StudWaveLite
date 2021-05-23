@@ -19,8 +19,14 @@ namespace StudWaveLite
     {
         private const int FontSizeSeparator = 96;
 
-        public Panel GamePanel;
+        public Panel MainMenuPanel;
+        public Label GameNameLabel;
+        public Button NewGameButton;
+        public Button LoadGameButton;
+        public Button SettingsButton;
+        public Button CloseGameButton;
 
+        public Panel GamePanel;
         public Label TextLabel;
         public Button FirstChoiceButton;
         public Button SecondChoiceButton;
@@ -49,13 +55,15 @@ namespace StudWaveLite
             plot = new Plot(player, world, dateInfo);
 
             InitializeComponent();
-            DrawInterface();
+            
 
-            StartNewGame();
+            DrawMainMenu();
         }
 
         private void StartNewGame()
         {
+            DrawGameInterface();
+
             DateInfoLabel.Text = dateInfo.GetDateAndCourse();
             HealthBar.Item1.Value = player.Health;
             MoodBar.Item1.Value = player.Mood;
@@ -151,19 +159,76 @@ namespace StudWaveLite
             StudyBar.Item1.Value = player.Study;
         }
 
+        private void SetMainMenuButtonsActions()
+        {
+            NewGameButton.Click += (sender, args) =>
+            {
+                MainMenuPanel.Hide();
+                StartNewGame();
+            };
+
+
+            CloseGameButton.Click += (sender, args) =>
+            {
+                this.Close();
+            };
+        }
+
         #region Interface
 
-        private void DrawInterface()
+        private void DrawMainMenu()
         {
-            GamePanel = GetGamePanel();
+            MainMenuPanel = GetPanel();
+            Controls.Add(MainMenuPanel);
+
+            GameNameLabel = GetGameNameLabel();
+            MainMenuPanel.Controls.Add(GameNameLabel);
+
+            NewGameButton = GetButton(1);
+            NewGameButton.Text = "Новая игра";
+            MainMenuPanel.Controls.Add(NewGameButton);
+
+            LoadGameButton = GetButton(1.5);
+            LoadGameButton.Text = "Загрузить игру";
+            MainMenuPanel.Controls.Add(LoadGameButton);
+
+            SettingsButton = GetButton(2);
+            SettingsButton.Text = "Настройки";
+            MainMenuPanel.Controls.Add(SettingsButton);
+
+            CloseGameButton = GetButton(2.5);
+            CloseGameButton.Text = "Выйти";
+            MainMenuPanel.Controls.Add(CloseGameButton);
+
+            SetMainMenuButtonsActions();
+        }
+
+        public Label GetGameNameLabel()
+        {
+            var label = GetTextLabel();
+            label.TextAlign = ContentAlignment.MiddleCenter;
+            label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 30);
+            label.Text = "StudWaveLite";
+
+            SizeChanged += (sender, args) =>
+            {
+                label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 30);
+            };
+
+            return label;
+        }
+
+        private void DrawGameInterface()
+        {
+            GamePanel = GetPanel();
             Controls.Add(GamePanel);
 
             TextLabel = GetTextLabel();
             GamePanel.Controls.Add(TextLabel);
 
-            FirstChoiceButton = GetChoiceButton(1);
-            SecondChoiceButton = GetChoiceButton(1.5);
-            ThirdChoiceButton = GetChoiceButton(2);
+            FirstChoiceButton = GetButton(1);
+            SecondChoiceButton = GetButton(1.5);
+            ThirdChoiceButton = GetButton(2);
             GamePanel.Controls.Add(FirstChoiceButton);
             GamePanel.Controls.Add(SecondChoiceButton);
             GamePanel.Controls.Add(ThirdChoiceButton);
@@ -187,7 +252,7 @@ namespace StudWaveLite
             GamePanel.Controls.Add(MoneyLabel);
         }
 
-        public Panel GetGamePanel()
+        public Panel GetPanel()
         {
             var panel = new Panel();
             panel.Size = new Size(ClientSize.Width, ClientSize.Height);
@@ -219,7 +284,7 @@ namespace StudWaveLite
             return label;
         }
 
-        public Button GetChoiceButton(double yLocation)
+        public Button GetButton(double yLocation)
         {
             var button = new Button();
             button.Location = new Point(ClientSize.Width / 5, (int)(ClientSize.Height / 3 * yLocation));
