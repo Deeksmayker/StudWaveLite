@@ -31,6 +31,7 @@ namespace StudWaveLite
         public Tuple<ProgressBar, Label> StudyBar;
         public Label MoneyLabel;
 
+        private Game game;
         private Player player;
         private World world;
         private Plot plot;
@@ -41,9 +42,11 @@ namespace StudWaveLite
         //Игровые стадии в таком порядке: Еда на месяц => Активность в свободное время => Событие => по кругу
         public MainForm()
         {
+            game = new Game();
             player = new Player();
             world = new World();
             dateInfo = new DateInfo();
+            plot = new Plot(player, world, dateInfo);
 
             InitializeComponent();
             DrawInterface();
@@ -53,8 +56,6 @@ namespace StudWaveLite
 
         private void StartNewGame()
         {
-            plot = new Plot(player, world, dateInfo);
-
             DateInfoLabel.Text = dateInfo.GetDateAndCourse();
             HealthBar.Item1.Value = player.Health;
             MoodBar.Item1.Value = player.Mood;
@@ -67,79 +68,21 @@ namespace StudWaveLite
 
             FirstChoiceButton.Click += (sender, args) =>
             {
-                if (world.IsFoodStage)
-                {
-                    player.Money -= 5000;
-                    player.Health += 10;
-                    player.Mood -= 5;
-                }
-
-                else if (world.IsFreeActivityStage)
-                {
-                    player.Study += 10;
-                    player.Health -= 10;
-                    player.Mood -= 20;
-                }
-
-                else if (world.IsEventStage)
-                {
-                    currentEvent.FirstChoice.WorldInteract(currentEvent.FirstChoice.CheckSucces());
-                    dateInfo.Month++;
-                    player.Money += 2000;
-                }
-
+                game.FirstButtonWorldInteract(player, world, dateInfo, currentEvent);
                 PrepareNextStage(currentEvent.FirstChoice);
                 RefreshAllStats();
             };
 
             SecondChoiceButton.Click += (sender, args) =>
             {
-                if (world.IsFoodStage)
-                {
-                    player.Money -= 8000;
-                    player.Health += 5;
-                    player.Mood += 10;
-                }
-
-                else if (world.IsFreeActivityStage)
-                {
-                    player.Study -= 10;
-                    player.Health += 10;
-                    player.Mood -= 10;
-                }
-
-                else if (world.IsEventStage)
-                {
-                    currentEvent.SecondChoice.WorldInteract(currentEvent.SecondChoice.CheckSucces());
-                    dateInfo.Month++;
-                }
-
+                game.SecondButtonWorldInteract(player, world, dateInfo, currentEvent);
                 PrepareNextStage(currentEvent.SecondChoice);
                 RefreshAllStats();
             };
 
             ThirdChoiceButton.Click += (sender, args) =>
             {
-                if (world.IsFoodStage)
-                {
-                    player.Money -= 2000;
-                    player.Health -= 20;
-                    player.Mood -= 20;
-                }
-
-                else if (world.IsFreeActivityStage)
-                {
-                    player.Study -= 20;
-                    player.Health -= 10;
-                    player.Mood += 20;
-                }
-
-                else if (world.IsEventStage)
-                {
-                    currentEvent.ThirdChoice.WorldInteract(currentEvent.ThirdChoice.CheckSucces());
-                    dateInfo.Month++;
-                }
-
+                game.ThirdButtonWorldInteract(player, world, dateInfo, currentEvent);
                 PrepareNextStage(currentEvent.ThirdChoice);
                 RefreshAllStats();
             };

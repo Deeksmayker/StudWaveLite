@@ -85,8 +85,9 @@ namespace StudWaveLite.Model
             {
                 new MonthEvent
                 {
-
+                    IsAvailableEvent = () => true
                 }
+                
             });
 
             plotDictionary = new Dictionary<int, Dictionary<int, List<MonthEvent>>>();
