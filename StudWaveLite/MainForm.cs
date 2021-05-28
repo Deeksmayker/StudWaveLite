@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Channels;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using StudWaveLite.Model;
+using WMPLib;
 
 
 namespace StudWaveLite
@@ -25,6 +27,9 @@ namespace StudWaveLite
         public Button LoadGameButton;
         public Button SettingsButton;
         public Button CloseGameButton;
+
+        public Panel SettingsPanel;
+        
 
         public Panel GamePanel;
         public Label TextLabel;
@@ -45,6 +50,8 @@ namespace StudWaveLite
 
         private MonthEvent currentEvent;
 
+        private WindowsMediaPlayer music;
+
         //Игровые стадии в таком порядке: Еда на месяц => Активность в свободное время => Событие => по кругу
         public MainForm()
         {
@@ -53,9 +60,12 @@ namespace StudWaveLite
             world = new World();
             dateInfo = new DateInfo();
             plot = new Plot(player, world, dateInfo);
+            music = new WindowsMediaPlayer();
 
             InitializeComponent();
+
             
+
 
             DrawMainMenu();
         }
@@ -165,6 +175,7 @@ namespace StudWaveLite
             {
                 MainMenuPanel.Hide();
                 StartNewGame();
+                
             };
 
 
@@ -172,6 +183,13 @@ namespace StudWaveLite
             {
                 this.Close();
             };
+        }
+
+        private void PlayMusic()
+        {
+            music.URL = "Volume Beta 21 Wait.wav";
+            music.controls.play();
+            music.settings.volume = 5;
         }
 
         #region Interface
@@ -201,6 +219,7 @@ namespace StudWaveLite
             MainMenuPanel.Controls.Add(CloseGameButton);
 
             SetMainMenuButtonsActions();
+            PlayMusic();
         }
 
         public Label GetGameNameLabel()

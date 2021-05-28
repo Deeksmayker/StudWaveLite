@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace StudWaveLite.Model
 {
@@ -84,6 +80,72 @@ namespace StudWaveLite.Model
             {
                 new MonthEvent
                 {
+                    TextEvent = "Ничего не предвещало беды. Ты как обычно пришел на пару математики, но в этот раз рука бога указала на тебя. Задание вроде не особо сложное, твои действия",
+                    FirstChoice = new Choice
+                    {
+                        ChoiceText = "Играем по честному. Попробовать ответить самому.",
+                        SuccesAfterChoice = "Красава. Порешал этот пример без шансов.",
+                        FailAfterChoice = "Бывают в жизни огорчения. Но преподаватель тебе объяснил пример, надеемся что в голове что то осталось",
+                        CheckSucces = () => world.Knowledge >= 1,
+                        ButtonTextAfterChoice = "Го некст",
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                world.Teachers++;
+                                player.Study += 10;
+                                player.Mood += 5;
+                            }
+
+
+                            else
+                            {
+                                world.Knowledge++;
+                                player.Study -= 5;
+                            }
+                        }
+                    },
+                    SecondChoice = new Choice()
+                    {
+                        ChoiceText = "Попробовать отшутиться, авось прокатит",
+                        SuccesAfterChoice = "В этот раз повезло. Учитель сказал что на первый раз прощает.", 
+                        FailAfterChoice = "Кринжанул по полной. На тебя странно косились до конца пары.",
+                        CheckSucces = () => player.Mood >= 50 && world.Sociability >= 1,
+                        ButtonTextAfterChoice = "Понимаю",
+                        WorldInteract = b =>
+                        {
+                            if (!b)
+                            {
+                                world.Sociability--;
+                                player.Study -= 10;
+                                player.Mood -= 10;
+                            }
+                        }
+                    },
+                    ThirdChoice = new Choice
+                    {
+                        ChoiceText = "Признаться что ничего не знаешь, но сказать что подготовишься к следующему занятию",
+                        SuccesAfterChoice = "Учитель оценил твою честность и дал задание на следующую пару",
+                        FailAfterChoice = "Учитель сказал, что не знать решения на такую простую задачу - позор, и поставил тебе 0 баллов",
+                        CheckSucces = () => player.Mood <= 50 && player.Health <= 70,
+                        ButtonTextAfterChoice = "Понимаю",
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                world.Teachers++;
+                                player.Mood -= 5;
+                            }
+
+                            else
+                            {
+                                world.Teachers--;
+                                player.Mood -= 10;
+                                player.Study -= 10;
+                            }
+                        }
+                    },
+
                     IsAvailableEvent = () => true
                 }
                 

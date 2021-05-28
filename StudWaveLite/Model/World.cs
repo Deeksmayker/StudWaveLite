@@ -56,5 +56,13 @@ namespace StudWaveLite.Model
             get => parents;
             set => parents = value >= 0 ? value : 0;
         }
+
+        private int teachers;
+
+        public int Teachers
+        {
+            get;
+            set;
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace StudWaveLite.Model
             {
                 currentEvent.FirstChoice.WorldInteract(currentEvent.FirstChoice.CheckSucces());
                 dateInfo.Month++;
-                player.Money += 2000;
+                player.Money += 5000;
             }
         }
 
@@ -52,7 +52,7 @@ namespace StudWaveLite.Model
             {
                 currentEvent.SecondChoice.WorldInteract(currentEvent.SecondChoice.CheckSucces());
                 dateInfo.Month++;
-                player.Money += 2000;
+                player.Money += 5000;
             }
         }
 
@@ -76,7 +76,7 @@ namespace StudWaveLite.Model
             {
                 currentEvent.ThirdChoice.WorldInteract(currentEvent.ThirdChoice.CheckSucces());
                 dateInfo.Month++;
-                player.Money += 2000;
+                player.Money += 5000;
             }
         }
     }
