@@ -19,6 +19,7 @@ namespace StudWaveLite.Model
 
             else if (world.IsFreeActivityStage)
             {
+                world.Knowledge++;
                 player.Study += 10;
                 player.Health -= 10;
                 player.Mood -= 20;
@@ -43,6 +44,7 @@ namespace StudWaveLite.Model
 
             else if (world.IsFreeActivityStage)
             {
+                world.Sport++;
                 player.Study -= 10;
                 player.Health += 10;
                 player.Mood -= 10;

@@ -97,7 +97,6 @@ namespace StudWaveLite.Model
                                 player.Mood += 5;
                             }
 
-
                             else
                             {
                                 world.Knowledge++;
@@ -147,8 +146,68 @@ namespace StudWaveLite.Model
                     },
 
                     IsAvailableEvent = () => true
+                },
+            });
+
+            firstCourse.Add(11, new List<MonthEvent>()
+            {
+                new MonthEvent()
+                {
+                    TextEvent = "Сидишь ты на физре, никого не трогаешь, а физрук как выдаст - \"Кто подтянется 20 раз - зачет за семестр вне очереди.\" Тут даже ты призадумался.",
+                    FirstChoice = new Choice()
+                    {
+                        ChoiceText = "А чобы нет, щас покажу",
+                        SuccesAfterChoice = "Сделал эти 20 без проблем(почти). Пятак в кармане.",
+                        FailAfterChoice = "Мдааа... Начал хорошо - закончил за упокой, буквально. Повредил руку, теперь и баллы нормальные по физре не набрать. Бывает...",
+                        CheckSucces = () => player.Health >= 50 && world.Sport >= 2,
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                player.Mood += 20;
+                                player.Study += 10;
+                            }
+                            else
+                            {
+                                player.Health -= 20;
+                                player.Study -= 5;
+                                player.Mood -= 20;
+                            }
+                        },
+                        ButtonTextAfterChoice = "Понимаю"
+                    },
+
+                    SecondChoice = new Choice()
+                    {
+                        ChoiceText = "Попробовать договориться с физруком. Сказать что ты может и не лучший спортсмен, но учишься хорошо, и поработать старостой за эту пятерочку",
+                        SuccesAfterChoice = "Он сказал, что слышал о том что ты не последний человек среди первокурсников, и переправил на тебя обязанности старосты, так что если справишься - будет тебе эта пятерка. Ну, придется теперь следить за этими опездалами....",
+                        FailAfterChoice = "Ты услышал только одно - \"Ты кто\"",
+                        CheckSucces = () => world.Teachers >= 1 && world.Sociability >= 1 && world.Knowledge >= 2,
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                world.Teachers++;
+                                world.Sociability++;
+                                player.Mood -= 10;
+                                player.Study += 10;
+                            }
+
+                            else
+                            {
+                                player.Mood -= 10;
+                            }
+                        },
+                        ButtonTextAfterChoice = "Понимаю"
+                    },
+
+                    ThirdChoice = new Choice()
+                    {
+                        ChoiceText = "Думаю посижу......",
+                        SuccesAfterChoice = "Посидел, бывает",
+                        ButtonTextAfterChoice = "И правда бывает..."
+                    }
                 }
-                
             });
 
             plotDictionary = new Dictionary<int, Dictionary<int, List<MonthEvent>>>();

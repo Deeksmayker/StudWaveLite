@@ -13,6 +13,6 @@ namespace StudWaveLite.Model
         public Choice SecondChoice;
         public Choice ThirdChoice;
 
-        public Func<bool> IsAvailableEvent;
+        public Func<bool> IsAvailableEvent = () => true;
     }
 }

@@ -29,7 +29,8 @@ namespace StudWaveLite
         public Button CloseGameButton;
 
         public Panel SettingsPanel;
-        
+        public CheckBox FullScreenCheckBox;
+        public TrackBar VolumeSlider;
 
         public Panel GamePanel;
         public Label TextLabel;
@@ -63,9 +64,6 @@ namespace StudWaveLite
             music = new WindowsMediaPlayer();
 
             InitializeComponent();
-
-            
-
 
             DrawMainMenu();
         }
@@ -178,10 +176,15 @@ namespace StudWaveLite
                 
             };
 
+            SettingsButton.Click += (sender, args) =>
+            {
+                MainMenuPanel.Hide();
+                DrawSettings();
+            };
 
             CloseGameButton.Click += (sender, args) =>
             {
-                this.Close();
+                Close();
             };
         }
 
@@ -190,6 +193,7 @@ namespace StudWaveLite
             music.URL = "Volume Beta 21 Wait.wav";
             music.controls.play();
             music.settings.volume = 5;
+            
         }
 
         #region Interface
@@ -220,6 +224,27 @@ namespace StudWaveLite
 
             SetMainMenuButtonsActions();
             PlayMusic();
+        }
+
+        private void DrawSettings()
+        {
+            SettingsPanel = GetPanel();
+            Controls.Add(SettingsPanel);
+            FullScreenCheckBox = new CheckBox();
+            FullScreenCheckBox.Location = new Point(100, 100);
+            SettingsPanel.Controls.Add(FullScreenCheckBox);
+            FullScreenCheckBox.Click += (sender, args) =>
+            {
+                FormBorderStyle = FormBorderStyle.None;
+                WindowState = FormWindowState.Maximized;
+            };
+
+            VolumeSlider = new TrackBar();
+            VolumeSlider.Location = new Point(300, 300);
+            VolumeSlider.Size = new Size(300, 300);
+            VolumeSlider.Maximum = 100;
+            VolumeSlider.Minimum = 0;
+            SettingsPanel.Controls.Add(VolumeSlider);
         }
 
         public Label GetGameNameLabel()
@@ -393,5 +418,11 @@ namespace StudWaveLite
 
         #endregion
 
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            //TopMost = true;
+            //FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Maximized;
+        }
     }
 }
