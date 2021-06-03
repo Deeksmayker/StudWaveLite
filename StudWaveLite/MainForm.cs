@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using StudWaveLite.Model;
+using StudWaveLite.Properties;
 using WMPLib;
 
 
@@ -24,13 +25,16 @@ namespace StudWaveLite
         public Panel MainMenuPanel;
         public Label GameNameLabel;
         public Button NewGameButton;
-        public Button LoadGameButton;
         public Button SettingsButton;
         public Button CloseGameButton;
 
         public Panel SettingsPanel;
+        public Label SettingsLabel;
+        public Label FirstSettingLabel;
+        public Label SecondSettingLabel;
         public CheckBox FullScreenCheckBox;
         public TrackBar VolumeSlider;
+        public Button BackButton;
 
         public Panel GamePanel;
         public Label TextLabel;
@@ -49,6 +53,8 @@ namespace StudWaveLite
         private Plot plot;
         private DateInfo dateInfo;
 
+  
+
         private MonthEvent currentEvent;
 
         private WindowsMediaPlayer music;
@@ -56,6 +62,7 @@ namespace StudWaveLite
         //Игровые стадии в таком порядке: Еда на месяц => Активность в свободное время => Событие => по кругу
         public MainForm()
         {
+            KeyPreview = true;
             game = new Game();
             player = new Player();
             world = new World();
@@ -66,6 +73,7 @@ namespace StudWaveLite
             InitializeComponent();
 
             DrawMainMenu();
+            SetKeyDownActions();
         }
 
         private void StartNewGame()
@@ -188,12 +196,46 @@ namespace StudWaveLite
             };
         }
 
+        private void SetSettingsActions()
+        {
+            VolumeSlider.ValueChanged += (sender, args) =>
+            {
+                music.settings.volume = VolumeSlider.Value;
+            };
+
+            BackButton.Click += (sender, args) =>
+            {
+                SettingsPanel.Hide();
+                MainMenuPanel.Show();
+            };
+        }
+
+        private void SetKeyDownActions()
+        {
+            KeyDown += (sender, args) =>
+            {
+                if (args.KeyValue == (char)Keys.Escape && GamePanel != null && GamePanel.Visible)
+                {
+                    GamePanel.Hide();
+                    DrawSettings();
+                }
+
+                else if (args.KeyValue == (char) Keys.Escape && SettingsPanel != null && SettingsPanel.Visible && GamePanel != null) 
+                {
+                    SettingsPanel.Hide();
+                    GamePanel.Show();
+                }
+            };
+        }
+
         private void PlayMusic()
         {
             music.URL = "Volume Beta 21 Wait.wav";
+
             music.controls.play();
             music.settings.volume = 5;
-            
+
+            music.settings.setMode("loop", true);
         }
 
         #region Interface
@@ -203,16 +245,14 @@ namespace StudWaveLite
             MainMenuPanel = GetPanel();
             Controls.Add(MainMenuPanel);
 
-            GameNameLabel = GetGameNameLabel();
+            GameNameLabel = GetNameLabel();
             MainMenuPanel.Controls.Add(GameNameLabel);
 
-            NewGameButton = GetButton(1);
-            NewGameButton.Text = "Новая игра";
+            NewGameButton = GetButton(1.25);
+            NewGameButton.Text = "Новая попытка";
             MainMenuPanel.Controls.Add(NewGameButton);
 
-            LoadGameButton = GetButton(1.5);
-            LoadGameButton.Text = "Загрузить игру";
-            MainMenuPanel.Controls.Add(LoadGameButton);
+            
 
             SettingsButton = GetButton(2);
             SettingsButton.Text = "Настройки";
@@ -223,31 +263,107 @@ namespace StudWaveLite
             MainMenuPanel.Controls.Add(CloseGameButton);
 
             SetMainMenuButtonsActions();
-            PlayMusic();
         }
+
 
         private void DrawSettings()
         {
             SettingsPanel = GetPanel();
             Controls.Add(SettingsPanel);
-            FullScreenCheckBox = new CheckBox();
-            FullScreenCheckBox.Location = new Point(100, 100);
-            SettingsPanel.Controls.Add(FullScreenCheckBox);
+
+            SettingsLabel = GetNameLabel();
+            SettingsLabel.Text = "Настройки";
+            SettingsPanel.Controls.Add(SettingsLabel);
+
+            FirstSettingLabel = GetCentreLabel(0.85);
+            FirstSettingLabel.Text = "Полный экран";
+            SettingsPanel.Controls.Add(FirstSettingLabel);
+
+            FullScreenCheckBox = GetCheckBox(FirstSettingLabel);
             FullScreenCheckBox.Click += (sender, args) =>
             {
-                FormBorderStyle = FormBorderStyle.None;
-                WindowState = FormWindowState.Maximized;
-            };
+                if (FullScreenCheckBox.Checked)
+                {
+                    WindowState = FormWindowState.Normal;
+                    FormBorderStyle = FormBorderStyle.None;
+                    WindowState = FormWindowState.Maximized;
+                }
 
-            VolumeSlider = new TrackBar();
-            VolumeSlider.Location = new Point(300, 300);
-            VolumeSlider.Size = new Size(300, 300);
-            VolumeSlider.Maximum = 100;
-            VolumeSlider.Minimum = 0;
+                else
+                {
+                    FormBorderStyle = FormBorderStyle.Sizable;
+                }
+            };
+            SettingsPanel.Controls.Add(FullScreenCheckBox);
+
+            SecondSettingLabel = GetCentreLabel(1.2);
+            SecondSettingLabel.Text = "Музыка";
+            SettingsPanel.Controls.Add(SecondSettingLabel);
+
+            VolumeSlider = GetTrackBar(SecondSettingLabel);
+            VolumeSlider.Value = music.settings.volume;
             SettingsPanel.Controls.Add(VolumeSlider);
+
+            BackButton = GetButton(2.5);
+            BackButton.Text = "На главное меню";
+            SettingsPanel.Controls.Add(BackButton);
+
+            SetSettingsActions();
         }
 
-        public Label GetGameNameLabel()
+        private CheckBox GetCheckBox(Label label)
+        {
+            var box = new CheckBox();
+            box.Location = new Point(label.Location.X - 50, label.Location.Y + 50);
+
+            SizeChanged += (sender, args) =>
+            {
+                box.Location = new Point(label.Location.X - 50, label.Location.Y + 50);
+            };
+
+            return box;
+        }
+
+        private TrackBar GetTrackBar(Label label)
+        {
+            var track = new TrackBar();
+
+            track.Minimum = 0;
+            track.Maximum = 100;
+
+            track.Location = new Point(label.Location.X, label.Location.Y + label.Size.Height + 20);
+            track.Size = label.Size;
+
+            SizeChanged += (sender, args) =>
+            {
+                track.Location = new Point(label.Location.X, label.Location.Y + label.Size.Height + 20);
+                track.Size = label.Size;
+            };
+
+            return track;
+        }
+
+        private Label GetCentreLabel(double yLocation)
+        {
+            var label = new Label();
+
+            label.Location = new Point(ClientSize.Width / 5, (int)(ClientSize.Height / 3 * yLocation));
+            label.Size = new Size(width: ClientSize.Width - label.Location.X * 2, height: ClientSize.Height / 10);
+            label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 70);
+            label.TextAlign = ContentAlignment.MiddleCenter;
+            label.BackColor = Color.Azure;
+
+            SizeChanged += (sender, args) =>
+            {
+                label.Location = new Point(ClientSize.Width / 5, (int)(ClientSize.Height / 3 * yLocation));
+                label.Size = new Size(width: ClientSize.Width - label.Location.X * 2, height: ClientSize.Height / 10);
+                label.Font = new Font(label.Font.FontFamily, ClientSize.Width / 70);
+            };
+
+            return label;
+        }
+
+        public Label GetNameLabel()
         {
             var label = GetTextLabel();
             label.TextAlign = ContentAlignment.MiddleCenter;
@@ -420,9 +536,11 @@ namespace StudWaveLite
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //TopMost = true;
-            //FormBorderStyle = FormBorderStyle.None;
-            WindowState = FormWindowState.Maximized;
+            //this.TopMost = true;
+            //this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
+
+            PlayMusic();
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace StudWaveLite.Model
 {
@@ -80,6 +82,20 @@ namespace StudWaveLite.Model
                 dateInfo.Month++;
                 player.Money += 5000;
             }
+        }
+
+        public void Save(Label textLabel)
+        {
+            var save = new StreamWriter("MainSave.save");
+            save.WriteLine(textLabel.Text);
+            save.Close();
+        }
+
+        public void Load(Label textLabel)
+        {
+            var load = new StreamReader("MainSave.save");
+            textLabel.Text = load.ReadLine();
+            load.Close();
         }
     }
 }
