@@ -72,8 +72,8 @@ namespace StudWaveLite.Model
             else if (world.IsFreeActivityStage)
             {
                 player.Study -= 20;
-                player.Health += 10;
-                player.Mood += 20;
+                player.Health -= 10;
+                player.Mood += 10;
             }
 
             else if (world.IsEventStage)
