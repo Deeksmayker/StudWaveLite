@@ -87,6 +87,11 @@ namespace StudWaveLite
             player.Study = 50;
             player.Money = 1000;
 
+            world.Knowledge = 0;
+            world.Parents = 0;
+            world.Teachers = 0;
+            world.Sport = 0;
+
             dateInfo.Course = 0;
             dateInfo.Month = 8;
 
