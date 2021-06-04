@@ -84,18 +84,32 @@ namespace StudWaveLite.Model
             }
         }
 
-        public void Save(Label textLabel)
+        public Tuple<bool, string, string> CheckGameOver(Player player)
         {
-            var save = new StreamWriter("MainSave.save");
-            save.WriteLine(textLabel.Text);
-            save.Close();
-        }
+            if (player.Health <= 0)
+                return Tuple.Create(true,
+                    "Умер. Как это возможно - спрашививать нужно у тебя.",
+                    "ой-ёй.");
+            
 
-        public void Load(Label textLabel)
-        {
-            var load = new StreamReader("MainSave.save");
-            textLabel.Text = load.ReadLine();
-            load.Close();
+            if (player.Mood <= 0)
+                return Tuple.Create(true,
+                    "Раньше надо было колёсики пить. В таком состоянии только дед инсайд посты строчить. Давай до завтра.",
+                    "Бывает");
+            
+
+            if (player.Study <= 0)
+                return Tuple.Create(true,
+                    "Говорят в армейке хоть кормят бесплатно.",
+                    "Повезло, получается.....");
+            
+
+            if (player.Money <= 0)
+                return Tuple.Create(true,
+                    "Не рассчитал бюджет на месяц, набрал микро-займов и вот тебя уже везут в багажнике в неизвестном направлении. Не думал что в наше время такое бывает.",
+                    "Вот и я не думал.....");
+
+            return Tuple.Create(false, "null", "null");
         }
     }
 }

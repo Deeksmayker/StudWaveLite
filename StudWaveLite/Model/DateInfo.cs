@@ -59,7 +59,7 @@ namespace StudWaveLite.Model
         public int Course
         {
             get => course;
-            set => course = value < course ? throw new Exception("Курс стал меньше, как") : value;
+            set => course = value;
         }
 
         #endregion

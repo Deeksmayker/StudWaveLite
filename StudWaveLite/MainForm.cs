@@ -53,7 +53,9 @@ namespace StudWaveLite
         private Plot plot;
         private DateInfo dateInfo;
 
-  
+        private Panel gameOverPanel;
+        private Label gameOverLabel;
+        private Button gameOverButton;
 
         private MonthEvent currentEvent;
 
@@ -79,6 +81,13 @@ namespace StudWaveLite
         private void StartNewGame()
         {
             DrawGameInterface();
+
+            player.Health = 100;
+            player.Mood = 50;
+            player.Study = 50;
+
+            dateInfo.Course = 0;
+            dateInfo.Month = 8;
 
             DateInfoLabel.Text = dateInfo.GetDateAndCourse();
             HealthBar.Item1.Value = player.Health;
@@ -168,11 +177,18 @@ namespace StudWaveLite
 
         private void RefreshAllStats()
         {
+            var checkGameOver = game.CheckGameOver(player);
+            if (checkGameOver.Item1)
+            {
+                GamePanel.Hide();
+                DrawGameOver(checkGameOver.Item2, checkGameOver.Item3);
+            }
+
             DateInfoLabel.Text = dateInfo.GetDateAndCourse();
             MoneyLabel.Text = player.GetMoney();
-            HealthBar.Item1.Value = player.Health;
-            MoodBar.Item1.Value = player.Mood;
-            StudyBar.Item1.Value = player.Study;
+            HealthBar.Item1.Value = checkGameOver.Item1 ? 0 : player.Health;
+            MoodBar.Item1.Value = checkGameOver.Item1 ? 0 : player.Mood;
+            StudyBar.Item1.Value = checkGameOver.Item1 ? 0 : player.Study;
         }
 
         private void SetMainMenuButtonsActions()
@@ -265,7 +281,6 @@ namespace StudWaveLite
             SetMainMenuButtonsActions();
         }
 
-
         private void DrawSettings()
         {
             SettingsPanel = GetPanel();
@@ -309,6 +324,26 @@ namespace StudWaveLite
             SettingsPanel.Controls.Add(BackButton);
 
             SetSettingsActions();
+        }
+
+        private void DrawGameOver(string message, string buttonText)
+        {
+            gameOverPanel = GetPanel();
+            Controls.Add(gameOverPanel);
+
+            gameOverLabel = GetTextLabel();
+            gameOverLabel.Text = message;
+            gameOverPanel.Controls.Add(gameOverLabel);
+
+            gameOverButton = GetButton(1);
+            gameOverButton.Text = buttonText;
+            gameOverPanel.Controls.Add(gameOverButton);
+
+            gameOverButton.Click += (sender, args) =>
+            {
+                gameOverPanel.Hide();
+                DrawMainMenu();
+            };
         }
 
         private CheckBox GetCheckBox(Label label)

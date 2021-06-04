@@ -41,14 +41,6 @@ namespace StudWaveLite.Model
 
         }
 
-        private int cooking;
-
-        public int Cooking
-        {
-            get => cooking;
-            set => cooking = value;
-        }
-
         private int parents;
 
         public int Parents

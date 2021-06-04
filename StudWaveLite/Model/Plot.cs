@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace StudWaveLite.Model
 {
@@ -14,6 +15,8 @@ namespace StudWaveLite.Model
 
         public void GetPlotDictionary(Player player, World world, DateInfo dateInfo)
         {
+            var random = new Random();
+
             var zeroCourse = new Dictionary<int, List<MonthEvent>>();
             zeroCourse.Add(8, new List<MonthEvent>
             {
@@ -214,7 +217,125 @@ namespace StudWaveLite.Model
             {
                 new MonthEvent()
                 {
-                    TextEvent = ""
+                    TextEvent = "Вот и новый год не за горами, так что нужно определиться как будешь его праздновать.",
+                    FirstChoice = new Choice()
+                    {
+                        ChoiceText = "Одногрупники как раз собираются снимать котедж, залечу с ними.",
+                        SuccesAfterChoice = "Вы хорошо провели новогоднюю ночь, даже ужасных проишествий не было (за исключением той истории с Ваньком и качелей, но не будем о грустном).",
+                        WorldInteract = b =>
+                        {
+                            player.Money -= 2000;
+                            player.Mood += 20;
+                            player.Health -= 5;
+                            world.Sociability++;
+                        },
+                        ButtonTextAfterChoice = "Неплохо"
+                    },
+
+                    SecondChoice = new Choice
+                    {
+                        ChoiceText = "Думаю пора и к родителям смотаться.",
+                        SuccesAfterChoice = "Новый год в кругу семьи. Классика.",
+                        WorldInteract = (b) =>
+                        {
+                            player.Mood += 10;
+                            world.Parents++;
+                        },
+                        ButtonTextAfterChoice = "И правда классика"
+                    },
+
+                    ThirdChoice = new Choice
+                    {
+                        ChoiceText = "Какой новый год, сессия через две недели.",
+                        SuccesAfterChoice = "Ну ты сидел и училсяучилсяучилсяучился. молодец, чего сказать....",
+                        WorldInteract = b =>
+                        {
+                            player.Mood -= 20;
+                            world.Sociability--;
+                        },
+                        ButtonTextAfterChoice = "Бывает"
+                    }
+                }
+            });
+
+            firstCourse.Add(1, new List<MonthEvent>()
+            {
+                new MonthEvent()
+                {
+                    TextEvent = "Настало время. Зимняя сессия. Как будешь сдавать",
+                    FirstChoice = new Choice()
+                    {
+                        ChoiceText = "Сам, конечно же. Не зря же я поступал.",
+                        SuccesAfterChoice = "Не без запинок, но сессия завершена успешна. Хорошая работа.",
+                        FailAfterChoice = "Шансы были. Что то сдал, что то завалил. Придется пересдавать.",
+                        CheckSucces = () => world.Knowledge >= 3,
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                player.Mood += 30;
+                                player.Study += 30;
+                                world.Teachers++;
+                                world.Parents++;
+                            }
+
+                            else
+                            {
+                                player.Mood -= 30;
+                                player.Study -= 30;
+                            }
+                        },
+                        ButtonTextAfterChoice = "Понимаю"
+                    },
+
+                    SecondChoice = new Choice()
+                    {
+                        ChoiceText = "Ну чаго остается, только попробовать списать",
+                        SuccesAfterChoice = "Опасная тематика, но получилось",
+                        FailAfterChoice = "Что то в жизни получается, а что то нет. Ауф",
+                        CheckSucces = () => random.Next(100) >= 50 && player.Mood >= 50,
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                player.Mood += 20;
+                                player.Study += 20;
+                            }
+
+                            else
+                            {
+                                player.Mood -= 30;
+                                player.Study -= 30;
+                                world.Teachers--;
+                            }
+                        },
+
+                        ButtonTextAfterChoice = "И правда"
+                    },
+
+                    ThirdChoice = new Choice()
+                    {
+                        ChoiceText = "Ну, наныть - тоже вариант",
+                        SuccesAfterChoice = "Учителя тебя пожалели и поставили этот троебан",
+                        FailAfterChoice = "Не убедил. Давай до завтра на пересдаче",
+                        CheckSucces = () => world.Teachers >= 1 && random.Next(100) >= 30 || player.Health <= 30,
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                player.Mood += 10;
+                                player.Study += 5;
+                            }
+
+                            else
+                            {
+                                player.Mood -= 30;
+                                player.Study -= 30;
+                                world.Teachers--;
+                            }
+                        },
+                        ButtonTextAfterChoice = "Понимаю"
+                    }
                 }
             });
 
