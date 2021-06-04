@@ -85,6 +85,7 @@ namespace StudWaveLite
             player.Health = 100;
             player.Mood = 50;
             player.Study = 50;
+            player.Money = 1000;
 
             dateInfo.Course = 0;
             dateInfo.Month = 8;
