@@ -31,6 +31,22 @@ namespace StudWaveLite.Model
                         WorldInteract = b => { },
                         ButtonTextAfterChoice = "И правда пора"
                     },
+
+                    SecondChoice = new Choice
+                    {
+                        ChoiceText = "Понимаю",
+                        SuccesAfterChoice = "Ну вот ты приехал и заселился, пора думать",
+                        WorldInteract = b => { },
+                        ButtonTextAfterChoice = "И правда пора"
+                    },
+
+                    ThirdChoice = new Choice
+                    {
+                        ChoiceText = "Понимаю",
+                        SuccesAfterChoice = "Ну вот ты приехал и заселился, пора думать",
+                        WorldInteract = b => { },
+                        ButtonTextAfterChoice = "И правда пора"
+                    },
                     IsAvailableEvent = () => true
                 }
             });
@@ -182,7 +198,7 @@ namespace StudWaveLite.Model
 
                     SecondChoice = new Choice()
                     {
-                        ChoiceText = "Попробовать договориться с физруком. Сказать что ты может и не лучший спортсмен, но учишься хорошо, и поработать старостой за эту пятерочку",
+                        ChoiceText = "Попробовать договориться с физруком. Сказать что можешь поработать старостой за эту пятерочку",
                         SuccesAfterChoice = "Он сказал, что слышал о том что ты не последний человек среди первокурсников, и переправил на тебя обязанности старосты, так что если справишься - будет тебе эта пятерка. Ну, придется теперь следить за этими опездалами....",
                         FailAfterChoice = "Ты услышал только одно - \"Ты кто\"",
                         CheckSucces = () => world.Teachers >= 1 && world.Sociability >= 1 && world.Knowledge >= 2,
@@ -336,6 +352,376 @@ namespace StudWaveLite.Model
                         },
                         ButtonTextAfterChoice = "Понимаю"
                     }
+                }
+            });
+
+            firstCourse.Add(2, new List<MonthEvent>()
+            {
+                new MonthEvent()
+                {
+                    TextEvent = "После сессии родители позвали домой на праздник. Также в этот момент друзья зазывают на дачу, рыбачить всю неделю. Твой выбор",
+                    FirstChoice = new Choice()
+                    {
+                        ChoiceText = "Родители это святое",
+                        SuccesAfterChoice = "Родители были рады тебя видеть и ты встретился со многими родственниками.",
+                        WorldInteract = b =>
+                        {
+                            player.Mood += 10;
+                            world.Parents++;
+                        },
+                        ButtonTextAfterChoice = "Хорошо"
+                    },
+
+                    SecondChoice = new Choice()
+                    {
+                        ChoiceText = "Ну, думаю после сессии можно и с друзьями смотаться",
+                        SuccesAfterChoice = "Жесткий ты конечно типарик. Но с друзьями хорошо провел время, хоть родители и не были довольны от слова совсем.",
+                        WorldInteract = b =>
+                        {
+                            world.Parents--;
+                            world.Sociability++;
+                            player.Mood += 10;
+                            player.Money -= 1000;
+                        },
+                        ButtonTextAfterChoice = "ой-ёй"
+                    },
+
+                    ThirdChoice = new Choice()
+                    {
+                        ChoiceText = "Я устал. Надо отдохнуть от всего",
+                        SuccesAfterChoice = "Ну, зато действительно хорошо отдохнул после сессии.",
+                        WorldInteract = b =>
+                        {
+                            world.Parents--;
+                            player.Mood += 30;
+                            player.Health += 20;
+                        },
+                        ButtonTextAfterChoice = "Да..."
+                    }
+                }
+            });
+
+            firstCourse.Add(3, new List<MonthEvent>()
+            {
+                new MonthEvent()
+                {
+                    TextEvent = "С началом нового семестра у вас появился новый (м)учитель математики. Кто бы мог подумать, но он зверь. И вот уже в какой раз рука бога указывает именно на тебя. Пример - сложнючий тройной интеграл. Твои действия.",
+                    FirstChoice = new Choice()
+                    {
+                        ChoiceText = "Чего думать, щас покажу",
+                        SuccesAfterChoice = "В этот у этого примера шансы против тебя были, и нешуточные, но ты его сломил. До основания. Даже новый учитель тебя зауважал после такого предстваления.",
+                        FailAfterChoice = "Хотелось бы сказать что шансы были, но это уже лукавство. Что то он тебе пытался объяснить, но ты едва ли что то понял.",
+                        CheckSucces = () => world.Knowledge >= 5,
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                player.Mood += 20;
+                                player.Study += 10;
+                                world.Teachers++;
+                            }
+
+                            else
+                            {
+                                player.Mood -= 20;
+                                player.Study -= 10;
+                            }
+                        },
+
+                        ButtonTextAfterChoice = "Бывает"
+                    },
+
+                    SecondChoice = new Choice()
+                    {
+                        ChoiceText = "Попробовать договориться. Сказать что за тройку готов на что угодно...",
+                        SuccesAfterChoice = "Удивительно, но он оказался снисходителен. Только теперь ты каждую неделю моешь его машину, но это уже совсем другая история.",
+                        FailAfterChoice = "Бывают в жизни огорчения. Вот и в твоей случились.",
+                        CheckSucces = () => world.Sociability >= 2 && random.Next(100) >= 50,
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                player.Mood -= 10;
+                                player.Study -= 5;
+                            }
+
+                            else
+                            {
+                                player.Mood -= 20;
+                                player.Study -= 20;
+                            }
+                        },
+
+                        ButtonTextAfterChoice = "Бывает..."
+                    },
+
+                    ThirdChoice = new Choice()
+                    {
+                        ChoiceText = "Сказать, что ты спортсмен и выступаешь за честь университета.",
+                        SuccesAfterChoice = "Ну, так как это правда, и тебя покрывает сам вуз, тебе ставят троебан и вы расходитесь на этой ноте.",
+                        FailAfterChoice = "И кому ты рассказываешь, мальчик. Было бы это хотя бы правдой.......",
+                        CheckSucces = () => world.Sport >= 5,
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                player.Mood += 10;
+                                player.Study += 5;
+                            }
+
+                            else
+                            {
+                                player.Mood -= 20;
+                                player.Study -= 20;
+                            }
+                        },
+
+                        ButtonTextAfterChoice = "Понимаю"
+                    }
+                }
+            });
+
+            firstCourse.Add(4, new List<MonthEvent>()
+            {
+                new MonthEvent()
+                {
+                    TextEvent = "КТО БЫ МОГ ПОДУМАТЬ, но новый учитель физкультуры тоже оказался не так прост (выглядит вообще люто), поэтому вы бежите эти 5км на время. А время на нормальную оценку - совсем не детское. Что же делать.",
+                    FirstChoice = new Choice()
+                    {
+                        ChoiceText = "Как что - бежать.",
+                        SuccesAfterChoice = "Пробежал. Даже без особых проблем, удивительно.",
+                        FailAfterChoice = "Ну ты бежал. Первые 2км. Дальше шёл. Не понятно на что расчитывал, конечно.",
+                        CheckSucces = () => world.Sport >= 50 && player.Health >= 50,
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                player.Mood += 10;
+                                player.Study += 10;
+                            }
+
+                            else
+                            {
+                                player.Mood -= 10;
+                                player.Health -= 10;
+                                player.Study -= 10;
+                            }
+                        },
+
+                        ButtonTextAfterChoice = "Понимаю"
+                    },
+
+                    SecondChoice = new Choice()
+                    {
+                        ChoiceText = "Классический ход. Попробовать договориться.",
+                        FailAfterChoice = "Для начала стоило посмотреть на него. Такие не договариваются. Никогда.",
+                        CheckSucces = () => false,
+                        WorldInteract = b =>
+                        {
+                            player.Mood -= 20;
+                            player.Study -= 10;
+                            world.Teachers--;
+                        },
+
+                        ButtonTextAfterChoice = "ой-ёй"
+                    },
+
+                    ThirdChoice = new Choice()
+                    {
+                        ChoiceText = "Сказать что плоховато тебе, так что такую историю ты точно не осилишь",
+                        SuccesAfterChoice = "Ну, это правда, так что он позволил тебе не бежать этот прикол",
+                        FailAfterChoice = "По тебе же видно, что всё не так плохо. Так кого ты обмануть пытаешься.",
+                        CheckSucces = () => player.Health <= 30,
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                player.Mood += 10;
+                            }
+
+                            else
+                            {
+                                player.Mood -= 20;
+                                player.Study -= 10;
+                                world.Teachers--;
+                            }
+                        },
+
+                        ButtonTextAfterChoice = "Понимаю"
+                    }
+                }
+            });
+
+            firstCourse.Add(5, new List<MonthEvent>()
+            {
+                new MonthEvent()
+                {
+                    TextEvent = "Никто не ожидал + никто не гадал. Но это не важно, ведь вуз решил устроить жесткую подготовку к параду, где каждый ученик должен показать чему он научился за первый курс.",
+                    FirstChoice = new Choice()
+                    {
+                        ChoiceText = "Отправиться помогать составлять план парада.",
+                        SuccesAfterChoice = "Ты действительно хорошо помог своими знаниями, поэтому за тебя и замолвили словечко перед деканом. Также ты там многому научился.",
+                        FailAfterChoice = "Ну сходил. Ну посмотрел. Ничем не помог, поэтому неясно чего ждать от деканата по отношению к тебе.",
+                        CheckSucces = () => world.Knowledge >= 7,
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                player.Mood += 100;
+                                player.Study += 100;
+                                world.Teachers += 10;
+                            }
+
+                            else
+                            {
+                                player.Mood -= 30;
+                                player.Study -= 30;
+                                world.Teachers -= 2;
+                            }
+                        },
+                        ButtonTextAfterChoice = "Понимаю"
+                    },
+
+                    SecondChoice = new Choice()
+                    {
+                        ChoiceText = "Пойти на соревнования перед самим парадом. Для защиты чести университета, как они говорят.",
+                        SuccesAfterChoice = "Не просто сходил, еще и всех победил. Тобой были очень довольны. Особенно физрук, который по итогу и замолвил за тебя словечко перед деканатом.",
+                        FailAfterChoice = "На что надеялся - не ясно.",
+                        CheckSucces = () => world.Sport >= 7,
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                player.Mood += 100;
+                                player.Study += 100;
+                                world.Teachers += 10;
+                            }
+
+                            else
+                            {
+                                player.Mood -= 30;
+                                player.Study -= 30;
+                                world.Teachers -= 2;
+                            }
+                        },
+
+                        ButtonTextAfterChoice = "Понимаю"
+                    },
+
+                    ThirdChoice = new Choice()
+                    {
+                        ChoiceText = "Пойти обкашлять организационные вопросы",
+                        SuccesAfterChoice = "Ты сильно помог с организацией мероприятия и за тебя замолвили словечко перед деканатом",
+                        FailAfterChoice = "Не то чтобы ты сильно помог. Если не скзаать совсем не помог.",
+                        CheckSucces = () => world.Sociability >= 3 && world.Teachers >= 3,
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                player.Mood += 100;
+                                player.Study += 100;
+                                world.Teachers += 10;
+                            }
+
+                            else
+                            {
+                                player.Mood -= 30;
+                                player.Study -= 30;
+                                world.Teachers -= 2;
+                            }
+                        },
+
+                        ButtonTextAfterChoice = "Понимаю"
+                    }
+                }
+            });
+
+            firstCourse.Add(6, new List<MonthEvent>()
+            {
+                new MonthEvent()
+                {
+                    TextEvent = "Последняя сессия первого курса. Пора.",
+                    FirstChoice = new Choice()
+                    {
+                        ChoiceText = "Решаю сам.",
+                        SuccesAfterChoice = "В этот раз пошло как по маслу. Даже удивительно",
+                        FailAfterChoice = "Шансы были.",
+                        CheckSucces = () => world.Knowledge >= 6,
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                player.Mood += 30;
+                                player.Study += 30;
+                                world.Teachers++;
+                                world.Parents++;
+                            }
+
+                            else
+                            {
+                                player.Mood -= 30;
+                                player.Study -= 30;
+                            }
+                        },
+                        ButtonTextAfterChoice = "Понимаю"
+                    },
+
+                    SecondChoice = new Choice()
+                    {
+                        ChoiceText = "Делать нечего - списываю",
+                        SuccesAfterChoice = "Опасно. Но получилось. В этот раз.",
+                        FailAfterChoice = "Не в этот раз.",
+                        CheckSucces = () => random.Next(100) >= 70 && player.Mood >= 50,
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                player.Mood += 20;
+                                player.Study += 20;
+                            }
+
+                            else
+                            {
+                                player.Mood -= 40;
+                                player.Study -= 40;
+                                world.Teachers--;
+                            }
+                        },
+
+                        ButtonTextAfterChoice = "И правда"
+                    },
+
+                    ThirdChoice = new Choice()
+                    {
+                        ChoiceText = "Проскочу на спорте",
+                        SuccesAfterChoice = "Ну, спортсмен он и в африке N",
+                        FailAfterChoice = "Куда проскочить собрался. Давай до завтра",
+                        CheckSucces = () => world.Sport >= 7 && world.Teachers >= 3,
+                        WorldInteract = b =>
+                        {
+                            if (b)
+                            {
+                                player.Mood += 10;
+                                player.Study += 5;
+                            }
+
+                            else
+                            {
+                                player.Mood -= 50;
+                                player.Study -= 50;
+                                world.Teachers--;
+                            }
+                        },
+                        ButtonTextAfterChoice = "Понимаю"
+                    }
+                }
+            });
+
+            firstCourse.Add(7, new List<MonthEvent>()
+            {
+                new MonthEvent()
+                {
+                    TextEvent = "Ну, на этом и заканчивается твоя жизнь как первокурсника. Дальше всё будет плавнее, так что помощь тебе больше не понадобится. Спасбо за игру."
                 }
             });
 

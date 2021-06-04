@@ -31,7 +31,7 @@ namespace StudWaveLite.Model
             {
                 currentEvent.FirstChoice.WorldInteract(currentEvent.FirstChoice.CheckSucces());
                 dateInfo.Month++;
-                player.Money += 5000;
+                player.Money += 5000 + world.Parents * 1000;
             }
         }
 
@@ -56,7 +56,7 @@ namespace StudWaveLite.Model
             {
                 currentEvent.SecondChoice.WorldInteract(currentEvent.SecondChoice.CheckSucces());
                 dateInfo.Month++;
-                player.Money += 5000;
+                player.Money += 5000 + world.Parents * 1000;
             }
         }
 
@@ -72,7 +72,7 @@ namespace StudWaveLite.Model
             else if (world.IsFreeActivityStage)
             {
                 player.Study -= 20;
-                player.Health -= 10;
+                player.Health += 10;
                 player.Mood += 20;
             }
 
@@ -80,7 +80,7 @@ namespace StudWaveLite.Model
             {
                 currentEvent.ThirdChoice.WorldInteract(currentEvent.ThirdChoice.CheckSucces());
                 dateInfo.Month++;
-                player.Money += 5000;
+                player.Money += 5000 + world.Parents * 1000;
             }
         }
 
