@@ -82,18 +82,7 @@ namespace StudWaveLite
         {
             DrawGameInterface();
 
-            player.Health = 100;
-            player.Mood = 50;
-            player.Study = 50;
-            player.Money = 1000;
-
-            world.Knowledge = 0;
-            world.Parents = 0;
-            world.Teachers = 0;
-            world.Sport = 0;
-
-            dateInfo.Course = 0;
-            dateInfo.Month = 8;
+            game.SetNewGamePropertiesValue(player, world, dateInfo);
 
             DateInfoLabel.Text = dateInfo.GetDateAndCourse();
             HealthBar.Item1.Value = player.Health;
@@ -107,6 +96,7 @@ namespace StudWaveLite
 
             FirstChoiceButton.Click += (sender, args) =>
             {
+                CheckEndGame();
                 game.FirstButtonWorldInteract(player, world, dateInfo, currentEvent);
                 PrepareNextStage(currentEvent.FirstChoice);
                 RefreshAllStats();
@@ -114,6 +104,7 @@ namespace StudWaveLite
 
             SecondChoiceButton.Click += (sender, args) =>
             {
+                CheckEndGame();
                 game.SecondButtonWorldInteract(player, world, dateInfo, currentEvent);
                 PrepareNextStage(currentEvent.SecondChoice);
                 RefreshAllStats();
@@ -121,6 +112,7 @@ namespace StudWaveLite
 
             ThirdChoiceButton.Click += (sender, args) =>
             {
+                CheckEndGame();
                 game.ThirdButtonWorldInteract(player, world, dateInfo, currentEvent);
                 PrepareNextStage(currentEvent.ThirdChoice);
                 RefreshAllStats();
@@ -178,6 +170,14 @@ namespace StudWaveLite
 
                 world.IsAfterEventStage = false;
                 world.IsFoodStage = true;
+            }
+        }
+
+        private void CheckEndGame()
+        {
+            if (dateInfo.Course == 1 && dateInfo.Month == 8)
+            {
+                DrawMainMenu();
             }
         }
 

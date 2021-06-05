@@ -18,7 +18,7 @@ namespace GameTests
             Assert.AreEqual("Январь", ((DateInfo.Months)date.Month).ToString());
             Assert.AreEqual(1, date.Month);
             Assert.AreEqual(2021, date.Year);
-            Assert.AreEqual(2, date.Course);
+            Assert.AreEqual(1, date.Course);
         }
     }
 }

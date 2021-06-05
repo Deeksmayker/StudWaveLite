@@ -111,5 +111,21 @@ namespace StudWaveLite.Model
 
             return Tuple.Create(false, "null", "null");
         }
+
+        public void SetNewGamePropertiesValue(Player player, World world, DateInfo dateInfo)
+        {
+            player.Health = 100;
+            player.Mood = 50;
+            player.Study = 50;
+            player.Money = 1000;
+
+            world.Knowledge = 0;
+            world.Parents = 0;
+            world.Teachers = 0;
+            world.Sport = 0;
+
+            dateInfo.Course = 0;
+            dateInfo.Month = 8;
+        }
     }
 }

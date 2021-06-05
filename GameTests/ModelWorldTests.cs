@@ -16,10 +16,10 @@ namespace GameTests
             world.Parents -= 123;
             world.Sociability -= 1423;
             world.Sport--;
-            Assert.AreEqual(0, world.Knowledge);
-            Assert.AreEqual(0, world.Parents);
-            Assert.AreEqual(0, world.Sociability);
-            Assert.AreEqual(0, world.Sport);
+            Assert.AreEqual(-123, world.Knowledge);
+            Assert.AreEqual(-123, world.Parents);
+            Assert.AreEqual(-1423, world.Sociability);
+            Assert.AreEqual(-1, world.Sport);
         }
     }
 }

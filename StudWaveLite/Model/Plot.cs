@@ -208,7 +208,6 @@ namespace StudWaveLite.Model
                             {
                                 world.Teachers++;
                                 world.Sociability++;
-                                player.Mood -= 10;
                                 player.Study += 10;
                             }
 
@@ -409,7 +408,7 @@ namespace StudWaveLite.Model
                     FirstChoice = new Choice()
                     {
                         ChoiceText = "Чего думать, щас покажу",
-                        SuccesAfterChoice = "В этот у этого примера шансы против тебя были, и нешуточные, но ты его сломил. До основания. Даже новый учитель тебя зауважал после такого предстваления.",
+                        SuccesAfterChoice = "В этот раз у примера шансы против тебя были, и нешуточные, но ты его сломил. До основания. Даже новый учитель тебя зауважал после такого предстваления.",
                         FailAfterChoice = "Хотелось бы сказать что шансы были, но это уже лукавство. Что то он тебе пытался объяснить, но ты едва ли что то понял.",
                         CheckSucces = () => world.Knowledge >= 5,
                         WorldInteract = b =>
